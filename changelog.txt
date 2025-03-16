@@ -1,4 +1,8 @@
 2025.03.16:
+* new: scripts/bat/clear-file-stream.bat: wrapper script to respective script from `contools--admin` project
+* changed: README.md, README_EN.txt: readmes update
+
+2025.03.16:
 * fixed: scripts/bat/reset-env.bat: execution fixup
 
 2025.03.14:

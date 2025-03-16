@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.03.14
+* 2025.03.16
 * userbin
 
 1. DESCRIPTION
@@ -7,7 +7,8 @@
 3. PREREQUISITES
 4. DEPENDENCIES
 5. USAGE
-6. AUTHOR
+6. PROJECT CONFIGURATION VARIABLES
+7. AUTHOR
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -30,21 +31,76 @@ Second mirror:
 -------------------------------------------------------------------------------
 3. PREREQUISITES
 -------------------------------------------------------------------------------
-Currently used these set of OS platforms:
+Currently used these set of OS platforms and repositories:
 
 1. OS platforms:
 
 * Windows XP+
 
+2. Repositories:
+
+* contools--admin
+  You must put the repository working copy into the
+  `$PROJECTS_ROOT/andry81/contools/contools--admin` directory.
+
 -------------------------------------------------------------------------------
 4. DEPENDENCIES
 -------------------------------------------------------------------------------
-None
+* contools--admin
 
 -------------------------------------------------------------------------------
 5. USAGE
 -------------------------------------------------------------------------------
-Put `userbin` scripts directory into the `PATH` variable.
+Put `userbin` working copy into the directory of the root of your git
+repositories directory:
+
+<root>
+ |
+ +- andry81
+ |   |
+ |   +- userbin
+ |       |
+ |       +- userbin
+ |
+
+NOTE:
+  Some scripts basically wrappers to scripts from a dependent project.
+  To read the usage description you must open the corresponding dependent
+  project script.
+
+Then put `contools--admin` a working copy root directory into the directory of
+the root of your git repositories directory:
+
+<root>
+ |
+ +- andry81
+ |   |
+ |   +- contools
+ |       |
+ |       +- contools--admin
+ |
+
+Create `PROJECTS_ROOT` environment variable with path to your git repositories
+directory:
+
+>
+PROJECTS_ROOT=<root>
+
+Put `userbin` a working copy scripts directory into the `PATH` variable:
+
+>
+set PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat
+
+-------------------------------------------------------------------------------
+6. PROJECT CONFIGURATION VARIABLES
+-------------------------------------------------------------------------------
+To be able to use the scripts you have to declare the set of environment
+variables. Here is described only a limited set of variables, you have to open
+each corresponding script to find out which one variable you must to define.
+
+* PROJECTS_ROOT
+
+  Main environment variable to call the `gitcmd` project scripts.
 
 -------------------------------------------------------------------------------
 7. AUTHOR

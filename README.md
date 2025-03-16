@@ -23,7 +23,7 @@
 <p align="center">
   <a href="https://github.com/andry81/userbin/tree/HEAD/changelog.txt">Changelog</a>
 • <a href="https://github.com/andry81/userbin/tree/HEAD/README_EN.txt">Readme</a>
-<!--• <a href="#dependencies">Dependencies</a>-->
+• <a href="#dependencies">Dependencies</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
@@ -33,9 +33,9 @@
 
 ---
 
-<!--## <a name="dependencies">Dependencies</a>
+## <a name="dependencies">Dependencies</a>
 
-* ...-->
+* contools--admin
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
