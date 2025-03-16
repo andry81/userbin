@@ -1,3 +1,6 @@
+2025.03.16:
+* fixed: scripts/bat/reset-env.bat: execution fixup
+
 2025.03.14:
 * new: scripts/bat/reset-env.bat: script to reset environment variables to defaults and/or to a custom list
 * new: README_EN.txt, README.md: readme files

@@ -31,7 +31,6 @@ rem script names call stack
 if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-^>%~nx0" ) else set "?~=%~nx0"
 
 set "?~dp0=%~dp0"
-set "?~nx0=%~nx0"
 
 rem script flags
 set ?FLAG_P=0
@@ -74,12 +73,12 @@ set "?OSVERMAJOR=0" & set "?OSVERMINOR=0" & for /F "tokens=1,2 delims=."eol^= %%
 if "%?OSVERMAJOR:~1,1%" == "" set "?OSVERMAJOR=0%?OSVERMAJOR%"
 if "%?OSVERMINOR:~1,1%" == "" set "?OSVERMINOR=0%?OSVERMINOR%"
 
-set "?LOAD_DEFAULT_VARS_FILE=" & set "?LOAD_VARS_FILE="
-for %%i in ("%~dp0..\..\_config\default\env\%?OSVERMAJOR%_%?OSVERMINOR%_*.lst") do set "?LOAD_VARS_FILE=%%i" & call :LOAD_VARS_FILE || exit /b
+set "?LOAD_DEFAULT_VARS_FILE_DIR=%?~dp0%..\..\_config\default\env"
+
+set "?LOAD_DEFAULT_VARS_FILE=" & set "?LOAD_VARS_FILE=" & ^
+for %%i in ("%?LOAD_DEFAULT_VARS_FILE_DIR%\%?OSVERMAJOR%_%?OSVERMINOR%_*.lst") do set "?LOAD_VARS_FILE=%%i" & call :LOAD_VARS_FILE || exit /b
 
 if defined ?LOAD_VARS_FILE goto LOAD_DEFAULT_VARS_FILE_END
-
-set "?LOAD_DEFAULT_VARS_FILE_DIR=%~dp0..\..\_config\default\env"
 
 rem find closest version (greater)
 set ?.=@dir "%?LOAD_DEFAULT_VARS_FILE_DIR%\*_*_*.lst" /A:-D /B /O:N 2^>nul
