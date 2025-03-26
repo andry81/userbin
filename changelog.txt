@@ -1,3 +1,11 @@
+2025.03.26:
+* new: scripts/bat: print-file-paths.bat, print-link-path.bat: wrapper scripts to respective scripts from `contools--admin` project
+* changed: scripts/bat/clear-file-stream.bat: sync with `contools--admin`
+* refactor: scripts/bat/reset-env.bat: minor refactor
+
+2025.03.18:
+* changed: README_EN.txt: minor change
+
 2025.03.16:
 * new: scripts/bat/clear-file-stream.bat: wrapper script to respective script from `contools--admin` project
 * changed: README.md, README_EN.txt: readmes update

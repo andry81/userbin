@@ -10,12 +10,17 @@ rem   A variable name must not start by `=` or `?`.
 
 rem -p
 rem   Print variables assign.
+rem
 rem -r
 rem   Skips existing environment variable clear if is not found in list(s).
+rem
 rem -d
 rem   Use `ver` command output to select the builtin variables list from
 rem   `_config/default/env` directory to load before <vars-file>.
 rem   Has effect if <vars-file> is defined and loads before it.
+
+rem --:
+rem   Separator to stop parse flags.
 
 rem <vars-file>:
 rem   Explicit variables file list to load.

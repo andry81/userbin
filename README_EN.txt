@@ -68,7 +68,7 @@ NOTE:
   To read the usage description you must open the corresponding dependent
   project script.
 
-Then put `contools--admin` a working copy root directory into the directory of
+Put `contools--admin` a working copy root directory into the directory of
 the root of your git repositories directory:
 
 <root>
