@@ -1,4 +1,7 @@
 2025.04.08:
+* refactor: _config/default/env: minor rename
+
+2025.04.08:
 * changed: _config/default/env/10_00_win10.lst: additional found values
 
 2025.03.26:
