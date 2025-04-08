@@ -1,4 +1,7 @@
 2025.04.08:
+* changed: scripts/bat/reset-env.bat: minor improvement
+
+2025.04.08:
 * refactor: _config/default/env: minor rename
 
 2025.04.08:

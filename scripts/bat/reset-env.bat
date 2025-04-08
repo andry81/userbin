@@ -114,8 +114,7 @@ goto LOAD_VARS_FILE_END
 
 :LOAD_VARS_FILE
 if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?LOAD_VARS_FILE!") do endlocal & echo.=^>%%~fi
-for /F "usebackq eol=; tokens=1,* delims==" %%i in ("%?LOAD_VARS_FILE%") do if not "%%j" == "" set "?VAR_NAME=%%i" ^
- & ( if %?FLAG_P% NEQ 0 call echo.%%?VAR_NAME%%=%%j ) & call set "%%?VAR_NAME%%=%%j" || exit /b
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" ( if %?FLAG_P% NEQ 0 echo.%%j=%%k) & set "%%j=%%k" || exit /b
 if %?FLAG_P% NEQ 0 echo.
 exit /b 0
 
