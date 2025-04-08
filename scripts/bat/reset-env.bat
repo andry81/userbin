@@ -104,7 +104,7 @@ goto LOAD_VARS_FILE_END
 
 :LOAD_CLOSEST_VARS_FILE
 for /F "tokens=* delims="eol^= %%i in ("%?LOAD_VARS_FILE%\.") do for /F "tokens=1,2 delims=_"eol^= %%j in ("%%~ni") do (
-  if %%j EQU %?OSVERMAJOR% if %%k GTR %?OSVERMAJOR% call :LOAD_VARS_FILE & exit /b
+  if %%j EQU %?OSVERMAJOR% if %%k GEQ %?OSVERMINOR% call :LOAD_VARS_FILE & exit /b
   if %%j GTR %?OSVERMAJOR% call :LOAD_VARS_FILE & exit /b
   set "?LOAD_VARS_FILE="
 )

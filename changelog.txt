@@ -1,4 +1,7 @@
 2025.04.08:
+* fixed: scripts/bat/reset-env.bat: execution fixup
+
+2025.04.08:
 * changed: scripts/bat/reset-env.bat: minor improvement
 
 2025.04.08:
