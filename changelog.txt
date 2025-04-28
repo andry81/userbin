@@ -1,3 +1,7 @@
+2025.04.28:
+* changed: global code improvement: `echo.` -> `echo;`, based on "Different `echo?...` variants" : https://github.com/andry81/contools/discussions/22
+* refactor: scripts/bat/reset-env.bat: minor refactor
+
 2025.04.08:
 * fixed: scripts/bat/reset-env.bat: execution fixup
 

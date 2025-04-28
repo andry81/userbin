@@ -17,14 +17,14 @@ rem
 rem -d
 rem   Use `ver` command output to select the builtin variables list from
 rem   `_config/default/env` directory to load before <vars-file>.
-rem   Has effect if <vars-file> is defined and loads before it.
+rem   Has effect if <vars-file> is defined, loads before <vars-file>.
 
 rem --:
 rem   Separator to stop parse flags.
 
 rem <vars-file>:
 rem   Explicit variables file list to load.
-rem   Has effect if `-d` flag is used and loads after it.
+rem   Has effect if `-d` flag is used, loads after a builtin list.
 
 rem Variables file list format:
 rem   [;]VAR[=VALUE]
@@ -57,11 +57,11 @@ set "?VARS_FILE=%~1"
 
 if not defined ?VARS_FILE (
   if %?FLAG_D% EQU 0 (
-    echo.%?~%: error: variables list file is not defined.
+    echo;%?~%: error: variables list file is not defined.
     exit /b 255
   ) >&2
 ) else if not exist "%?VARS_FILE%" (
-  echo.%?~%: error: variables list file does not exist: "%?VARS_FILE%".
+  echo;%?~%: error: variables list file does not exist: "%?VARS_FILE%".
   exit /b 1
 ) >&2
 
@@ -113,9 +113,9 @@ exit /b 0
 goto LOAD_VARS_FILE_END
 
 :LOAD_VARS_FILE
-if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?LOAD_VARS_FILE!") do endlocal & echo.=^>%%~fi
-for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" ( if %?FLAG_P% NEQ 0 echo.%%j=%%k) & set "%%j=%%k" || exit /b
-if %?FLAG_P% NEQ 0 echo.
+if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?LOAD_VARS_FILE!") do endlocal & echo;=^>%%~fi
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" ( if %?FLAG_P% NEQ 0 echo;%%j=%%k) & set "%%j=%%k" || exit /b
+if %?FLAG_P% NEQ 0 echo;
 exit /b 0
 
 :LOAD_VARS_FILE_END
@@ -123,7 +123,7 @@ exit /b 0
 if %?FLAG_R% NEQ 0 goto CHECK_VAR_END
 if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE goto CHECK_VAR_END
 
-for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CHECK_VAR && ( ( if %?FLAG_P% NEQ 0 echo.-%%i ) & set "%%i=" )
+for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CHECK_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i ) & set "%%i=" )
 
 goto CHECK_VAR_END
 
@@ -138,7 +138,7 @@ exit /b 0
 :CHECK_VAR_END
 
 if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE (
-  echo.%?~%: error: os version is not detected, nothing to reset.
+  echo;%?~%: error: os version is not detected, nothing to reset.
   rem cleanup
   for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set ? 2^>nul`) do set "%%i="
   exit /b 127
