@@ -1,3 +1,6 @@
+2025.04.30:
+* new: scripts/bat: set-errlvl.bat, print-errlvl.bat: shortcut scripts to set and print `ERRORLEVEL` variable, can be used in a single command line
+
 2025.04.28:
 * changed: global code improvement: `echo.` -> `echo;`, based on "Different `echo?...` variants" : https://github.com/andry81/contools/discussions/22
 * refactor: scripts/bat/reset-env.bat: minor refactor
