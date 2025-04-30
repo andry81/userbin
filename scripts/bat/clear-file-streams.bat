@@ -1,5 +1,9 @@
 @echo off
 
+if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variable is not defined"
+
+"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/FileSystem/clear_file_streams.bat" %*
+
 rem USAGE:
 rem   clear-file-streams.bat [<flags>] [--] [<glob-path> [<streams>...]]
 
@@ -23,7 +27,3 @@ rem <streams>
 rem   List of stream names.
 rem   If `*`, then a known list is used:
 rem     * Zone.identifier
-
-setlocal
-
-call "%%PROJECTS_ROOT%%/andry81/contools/contools--admin/scripts/FileSystem/clear_file_streams.bat" %%*

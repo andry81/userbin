@@ -1,5 +1,9 @@
 @echo off
 
+if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variable is not defined"
+
+"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/FileSystem/print_file_paths.bat" %*
+
 rem USAGE:
 rem   print-file-paths.bat [<flags>] [--] [<glob-path>]
 
@@ -29,7 +33,3 @@ rem       Does not detect links recursion.
 
 rem --:
 rem   Separator to stop parse flags.
-
-setlocal
-
-call "%%PROJECTS_ROOT%%/andry81/contools/contools--admin/scripts/FileSystem/print_file_paths.bat" %%*

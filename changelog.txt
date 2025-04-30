@@ -1,4 +1,10 @@
 2025.04.30:
+* new: scripts/bat/abort.bat: abort script to abort the current `cmd.exe` process execution with an optional parameter print
+* new: scripts/bat/ctrl-break.bat: script emit CTRL-BREAK signal
+* changed: scripts/bat: use `abort.bat` script in case of `PROJECTS_ROOT` environment variable is not defined
+* changed: scripts/bat: scripts reduction and minimization
+
+2025.04.30:
 * new: scripts/bat: set-errlvl.bat, print-errlvl.bat: shortcut scripts to set and print `ERRORLEVEL` variable, can be used in a single command line
 
 2025.04.28:
