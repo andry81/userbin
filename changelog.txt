@@ -1,3 +1,7 @@
+2025.05.06:
+* new: scripts/bat/reset-env.bat: `-v` option to reset arbitrary variables
+* changed: scripts/bat/reset-env.bat: minor code cleanup
+
 2025.04.30:
 * new: scripts/bat/abort.bat: abort script to abort the current `cmd.exe` process execution with an optional parameter print
 * new: scripts/bat/ctrl-break.bat: script emit CTRL-BREAK signal

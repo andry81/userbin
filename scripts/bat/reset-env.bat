@@ -1,7 +1,7 @@
 @echo off
 
 rem USAGE:
-rem   reset-env.bat [-p] [-r] [-d] [--] [<vars-file>]
+rem   reset-env.bat [-p] [-r] [-d] [-v <var>]... [--] [<vars-file>]
 
 rem Description:
 rem   Script resets all environment variables using a variables list file.
@@ -18,6 +18,10 @@ rem -d
 rem   Use `ver` command output to select the builtin variables list from
 rem   `_config/default/env` directory to load before <vars-file>.
 rem   Has effect if <vars-file> is defined, loads before <vars-file>.
+rem
+rem -v <var>
+rem   Resets only <var> variable.
+rem   Can be reused for a list of variables.
 
 rem --:
 rem   Separator to stop parse flags.
@@ -41,6 +45,7 @@ rem script flags
 set ?FLAG_P=0
 set ?FLAG_R=0
 set ?FLAG_D=0
+set "?FLAG_VAR_LIST="
 
 rem flags always at first
 set "?FLAG=%~1"
@@ -50,6 +55,9 @@ if defined ?FLAG if not "%?FLAG:~0,1%" == "-" set "?FLAG="
 if defined ?FLAG if "%?FLAG%" == "-p" set "?FLAG_P=1" & shift & call set "?FLAG=%%~1"
 if defined ?FLAG if "%?FLAG%" == "-r" set "?FLAG_R=1" & shift & call set "?FLAG=%%~1"
 if defined ?FLAG if "%?FLAG%" == "-d" set "?FLAG_D=1" & shift & call set "?FLAG=%%~1"
+
+:FLAG_V_LOOP
+if defined ?FLAG if "%?FLAG%" == "-v" ( set ?FLAG_VAR_LIST=%?FLAG_VAR_LIST% "%~2") & shift & shift & call set "?FLAG=%%~1" & goto FLAG_V_LOOP
 
 if defined ?FLAG if "%?FLAG%" == "--" shift
 
@@ -114,7 +122,13 @@ goto LOAD_VARS_FILE_END
 
 :LOAD_VARS_FILE
 if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?LOAD_VARS_FILE!") do endlocal & echo;=^>%%~fi
-for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" ( if %?FLAG_P% NEQ 0 echo;%%j=%%k) & set "%%j=%%k" || exit /b
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" if not defined ?FLAG_VAR_LIST (
+  if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  set "%%j=%%k"
+) else for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" (
+  if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  set "%%j=%%k"
+)
 if %?FLAG_P% NEQ 0 echo;
 exit /b 0
 
@@ -132,6 +146,10 @@ if ^%?VAR_NAME:~0,1%/ == ^?/ exit /b 1
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do endlocal & (
   if defined ?LOAD_DEFAULT_VARS_FILE for /F "usebackq eol=; tokens=1 delims==" %%j in ("%?LOAD_DEFAULT_VARS_FILE%") do if /i "%%i" == "%%j" exit /b 1
   if defined ?LOAD_VARS_FILE for /F "usebackq eol=; tokens=1 delims==" %%j in ("%?LOAD_VARS_FILE%") do if /i "%%i" == "%%j" exit /b 1
+  if defined ?FLAG_VAR_LIST (
+    for %%j in (%?FLAG_VAR_LIST%) do if /i "%%i" == "%%~j" exit /b 0
+    exit /b 1
+  )
 )
 exit /b 0
 
