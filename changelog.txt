@@ -1,3 +1,7 @@
+2025.05.22:
+* new: scripts/bat/which.bat: moved from `contools` project
+* changed: scripts/bat/which.bat: script speed up
+
 2025.05.06:
 * new: scripts/bat/reset-env.bat: `-v` option to reset arbitrary variables
 * changed: scripts/bat/reset-env.bat: minor code cleanup
