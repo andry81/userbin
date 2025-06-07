@@ -16,7 +16,7 @@ rem   Skips existing environment variable clear if is not found in list(s).
 rem
 rem -d
 rem   Use `ver` command output to select the builtin variables list from
-rem   `_config/default/env` directory to load before <vars-file>.
+rem   `_config/default/env` directory to load.
 rem   Has effect if <vars-file> is defined, loads before <vars-file>.
 rem
 rem -v <var>
@@ -137,7 +137,7 @@ exit /b 0
 if %?FLAG_R% NEQ 0 goto CHECK_VAR_END
 if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE goto CHECK_VAR_END
 
-for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CHECK_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i ) & set "%%i=" )
+for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CHECK_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i) & set "%%i=" )
 
 goto CHECK_VAR_END
 
