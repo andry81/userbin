@@ -1,3 +1,8 @@
+2025.06.10:
+* new: scripts/bat/assert*.bat: assert scripts
+* new: scripts/bat/*-junctions-*.bat: junction scripts
+* changed: scripts/bat/abort.bat: improved, always return not zero exit code
+
 2025.06.07:
 * changed: scripts/*.bat: code cleanup
 

@@ -1,18 +1,23 @@
 @echo off
+(call)
 (
-  if 0 %*
+  setlocal DISABLEDELAYEDEXPANSION
+  if 0 "%~nx0: %~1"
 ) >&2
 cmd.exe /c exit -1073741510
 exit
 
 rem USAGE:
-rem   abort.bat [<expr>]
+rem   abort.bat [<message>]
 
 rem Description:
-rem   Stops an outer script execution with the message:
-rem     `The syntax of the command is incorrect.` if `%1` is empty, otherwise
-rem     `%1 was unexpected at this time.` if not.
-rem   Does not change the error level.
+rem   Tests `<message>` and if is not empty, then stops an outer script
+rem   execution with the error message:
+rem     `"abort.bat: <message>" was unexpected at this time.`
+rem   If `<message>` is empty, then stops an outer script execution
+rem   with the error message:
+rem     `The syntax of the command is incorrect.`
+rem   Sets not zero error level before the abort.
 rem   The `cmd.exe /c exit -1073741510` command emits CTRL-BREAK just in case
 rem   of execution continue.
 
