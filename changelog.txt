@@ -1,3 +1,7 @@
+2025.06.15:
+* new: scripts/bat/read-path-*.bat: read path properties and verbs scripts
+* new: scripts/bat/print-wmic-path-all-props.bat: print path WMI properties
+
 2025.06.10:
 * new: scripts/bat/assert*.bat: assert scripts
 * new: scripts/bat/*-junctions-*.bat: junction scripts
