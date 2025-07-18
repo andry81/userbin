@@ -1,3 +1,12 @@
+2025.07.18:
+* new: .externals-tests: externals for tests
+* new: _config/config.*: config for variables
+* new: __init__: init scripts
+* new: scripts/bat/reset-env.bat: `-expand` flag to disable expansion of %-variables
+* new: tests/unit/bat/test_reset-env: initial unit tests for `reset-env.bat` script
+* changed: scripts/bat/reset-env.bat: %-variables in values does expand by default
+* changed: README.md, README_EN.txt: readmes update
+
 2025.06.15:
 * new: scripts/bat/read-path-*.bat: read path properties and verbs scripts
 * new: scripts/bat/print-wmic-path-all-props.bat: print path WMI properties

@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.03.16
+* 2025.07.17
 * userbin
 
 1. DESCRIPTION
@@ -13,7 +13,7 @@
 -------------------------------------------------------------------------------
 1. DESCRIPTION
 -------------------------------------------------------------------------------
-User scripts for the `PATH` variable.
+User scripts accessible from the `PATH` variable.
 
 -------------------------------------------------------------------------------
 2. REPOSITORIES
@@ -100,7 +100,7 @@ each corresponding script to find out which one variable you must to define.
 
 * PROJECTS_ROOT
 
-  Main environment variable to call the `gitcmd` project scripts.
+  Main environment variable to access a tree of repositories.
 
 -------------------------------------------------------------------------------
 7. AUTHOR

@@ -1,0 +1,1 @@
+PATH05="\system32";"TEST^TEST"

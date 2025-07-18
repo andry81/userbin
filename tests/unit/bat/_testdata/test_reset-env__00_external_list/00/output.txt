@@ -1,0 +1,7 @@
+PATH00=c:\Windows\Prefix123\system32;TEST^TEST
+PATH01=c:\Windows\Prefix123\system32;"TEST^TEST"
+PATH02="c:\Windows\Prefix123\system32";TEST^TEST
+PATH03="c:\Windows\Prefix123\system32";"TEST^TEST"
+PATH04="c:\Windows\Prefix123\system32;TEST^TEST"
+PATH05="c:\Windows\Prefix123\system32";"TEST^TEST"
+PREFIX=c:\Windows\Prefix123
