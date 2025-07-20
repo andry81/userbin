@@ -24,8 +24,6 @@ set TEST_LAST_ERROR=0
   endlocal
 ) >nul
 
-endlocal
-
 if not exist "%TEST_DATA_REF_FILE%" set "TEST_LAST_ERROR=22" & goto EXIT
 
 "%SystemRoot%\System32\fc.exe" "%TEST_TEMP_DATA_OUT_FILE%" "%TEST_DATA_REF_FILE%" >nul || set "TEST_LAST_ERROR=23"

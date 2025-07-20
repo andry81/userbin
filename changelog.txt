@@ -1,3 +1,9 @@
+2025.07.20:
+* new: tests/unit/bat/test_reset-env/test_reset-env__00_internal_list: unit test for `reset-env.bat -d` case
+* changed: .externals-tests: externals for tests
+* changed: _config/default/env/*.lst: variables sorted
+* refactor: tests/unit/bat/test_reset-env/test_reset-env__01_external_list*: test rename
+
 2025.07.18:
 * new: .externals-tests: externals for tests
 * new: _config/config.*: config for variables

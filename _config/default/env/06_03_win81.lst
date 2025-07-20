@@ -1,7 +1,7 @@
 ALLUSERSPROFILE
 APPDATA
-CommonProgramFiles(x86)
 CommonProgramFiles
+CommonProgramFiles(x86)
 CommonProgramW6432
 COMPUTERNAME
 ComSpec
@@ -19,8 +19,8 @@ PROCESSOR_IDENTIFIER
 PROCESSOR_LEVEL
 PROCESSOR_REVISION
 ProgramData
-ProgramFiles(x86)
 ProgramFiles
+ProgramFiles(x86)
 ProgramW6432
 PROMPT
 PSModulePath
