@@ -1,0 +1,7 @@
+PaTh00=c:\Windows\Prefix123\system32;TEST^TEST
+PaTh01=c:\Windows\Prefix123\system32;"TEST^TEST"
+PaTh02="c:\Windows\Prefix123\system32";TEST^TEST
+PaTh03="c:\Windows\Prefix123\system32";"TEST^TEST"
+PaTh04="c:\Windows\Prefix123\system32;TEST^TEST"
+PaTh05="c:\Windows\Prefix123\system32";"TEST^TEST"
+PReFiX=c:\Windows\Prefix123

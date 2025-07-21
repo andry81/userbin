@@ -1,0 +1,7 @@
+PaTh00=%PREFIX%\system32;TEST^TEST
+PaTh01=%PREFIX%\system32;"TEST^TEST"
+PaTh02="%PREFIX%\system32";TEST^TEST
+PaTh03="%PREFIX%\system32";"TEST^TEST"
+PaTh04="%PREFIX%\system32;TEST^TEST"
+PaTh05="%PREFIX%\system32";"TEST^TEST"
+PReFiX=c:\Windows\Prefix123

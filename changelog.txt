@@ -1,4 +1,8 @@
 2025.07.21:
+* new: scripts/bat/reset-env.bat: `-allow-rename` flag to allow variable name change
+* new: tests/unit/bat/test_reset-env/test_reset-env__01_external_list: more unit tests
+
+2025.07.21:
 * new: tests/unit/bat/test_reset-env/test_reset-env__01_external_list: more unit tests
 * changed: scripts/bat/reset-env.bat: unset all not existed before set any
 * changed: scripts/bat/reset-env.bat: code cleanup

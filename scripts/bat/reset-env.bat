@@ -1,7 +1,7 @@
 @echo off
 
 rem USAGE:
-rem   reset-env.bat [-p] [-r] [-d] [-noexpand] [-v <var>]... [--] [<vars-file>]
+rem   reset-env.bat [-p] [-r] [-d] [-noexpand] [-allow-rename] [-v <var>]... [--] [<vars-file>]
 
 rem CAUTION:
 rem   The delayed expansion feature must be disabled before this script call:
@@ -31,6 +31,9 @@ rem   Can be reused for a list of variables.
 rem
 rem -noexpand
 rem   Disables expansion of %-variables.
+rem
+rem -allow-rename
+rem   Allow variable name change using `unset` before `set`.
 
 rem --:
 rem   Separator to stop parse flags.
@@ -55,6 +58,7 @@ set ?FLAG_P=0
 set ?FLAG_R=0
 set ?FLAG_D=0
 set ?FLAG_NO_EXPAND=0
+set ?FLAG_ALLOW_RENAME=0
 set "?FLAG_VAR_LIST="
 
 rem flags always at first
@@ -66,6 +70,7 @@ if defined ?FLAG if "%?FLAG%" == "-p" set "?FLAG_P=1" & shift & call set "?FLAG=
 if defined ?FLAG if "%?FLAG%" == "-r" set "?FLAG_R=1" & shift & call set "?FLAG=%%~1"
 if defined ?FLAG if "%?FLAG%" == "-d" set "?FLAG_D=1" & shift & call set "?FLAG=%%~1"
 if defined ?FLAG if "%?FLAG%" == "-noexpand" set "?FLAG_NO_EXPAND=1" & shift & call set "?FLAG=%%~1"
+if defined ?FLAG if "%?FLAG%" == "-allow-rename" set "?FLAG_ALLOW_RENAME=1" & shift & call set "?FLAG=%%~1"
 
 :FLAG_V_LOOP
 if defined ?FLAG if "%?FLAG%" == "-v" ( set ?FLAG_VAR_LIST=%?FLAG_VAR_LIST% "%~2") & shift & shift & call set "?FLAG=%%~1" & goto FLAG_V_LOOP
@@ -177,6 +182,7 @@ for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:="!"") do endlocal & set "?
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do ^
 for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:~0,-1!") do endlocal & (
   if %?FLAG_P% NEQ 0 echo;%%i=%%j
+  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%i="
   set "%%i=%%j"
 )
 exit /b 0
@@ -186,6 +192,7 @@ if not defined ?FLAG_VAR_LIST goto NO_FLAG_VAR_LIST
 
 for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" (
   if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%j="
   set "%%j=%%k"
 )
 exit /b 0
@@ -193,6 +200,7 @@ exit /b 0
 :NO_FLAG_VAR_LIST
 for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" (
   if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%j="
   set "%%j=%%k"
 )
 exit /b 0

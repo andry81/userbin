@@ -1,0 +1,1 @@
+PaTh04="\system32;TEST^TEST"
