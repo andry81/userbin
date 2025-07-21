@@ -1,0 +1,2 @@
+PREFIX=c:\Windows\Prefix123
+PATH04="%PREFIX%\system32;TEST^TEST"

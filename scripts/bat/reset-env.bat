@@ -131,67 +131,19 @@ exit /b 0
 
 goto LOAD_VARS_FILE_END
 
+rem NOTE: encode `"` character to avoid `^` character partial duplication
+
 :LOAD_VARS_FILE
 if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?LOAD_VARS_FILE!") do endlocal & echo;=^>%%~fi
-for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" if not defined ?FLAG_VAR_LIST (
-  if %?FLAG_NO_EXPAND% EQU 0 (
-    if not "%%k" == "" (
-      set "?VAR_NAME=%%j" & set "?VAR_VALUE=%%k" & call :SET_WITH_EXPAND
-    ) else (
-      if %?FLAG_P% NEQ 0 echo;%%j=
-      set "%%j="
-    )
-  ) else (
-    if %?FLAG_P% NEQ 0 echo;%%j=%%k
-    set "%%j=%%k"
-  )
-) else for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" (
-  if %?FLAG_NO_EXPAND% EQU 0 (
-    if not "%%k" == "" (
-      set "?VAR_NAME=%%j" & set "?VAR_VALUE=%%k" & call :SET_WITH_EXPAND
-    ) else (
-      if %?FLAG_P% NEQ 0 echo;%%j=
-      set "%%j="
-    )
-  ) else (
-    if %?FLAG_P% NEQ 0 echo;%%j=%%k
-    set "%%j=%%k"
-  )
-)
-if %?FLAG_P% NEQ 0 echo;
-exit /b 0
 
-:SET_WITH_EXPAND
-setlocal ENABLEDELAYEDEXPANSION
-rem encode `"` character to avoid `^` character partial duplication
-set "?VAR_VALUE=!?VAR_VALUE:"=!"
-call set "?VAR_VALUE=!?VAR_VALUE!" & if defined ?VAR_VALUE set "?VAR_VALUE=!?VAR_VALUE:^^=^!"
-if not defined ?VAR_VALUE goto EXPAND_VAR_EMPTY
-for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:="!"") do endlocal & set "?VAR_VALUE=%%j"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do ^
-for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:~0,-1!") do endlocal & (
-  if %?FLAG_P% NEQ 0 echo;%%i=%%j
-  set "%%i=%%j"
-)
-exit /b 0
+if %?FLAG_R% NEQ 0 goto CLEAR_VAR_END
+if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE goto CLEAR_VAR_END
 
-:EXPAND_VAR_EMPTY
-for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do endlocal & (
-  if %?FLAG_P% NEQ 0 echo;%%i=
-  set "%%i="
-)
-exit /b 0
+for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CLEAR_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i) & set "%%i=" )
 
-:LOAD_VARS_FILE_END
+goto CLEAR_VAR_END
 
-if %?FLAG_R% NEQ 0 goto CHECK_VAR_END
-if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE goto CHECK_VAR_END
-
-for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CHECK_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i) & set "%%i=" )
-
-goto CHECK_VAR_END
-
-:CHECK_VAR
+:CLEAR_VAR
 if ^%?VAR_NAME:~0,1%/ == ^?/ exit /b 1
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do endlocal & (
   if defined ?LOAD_DEFAULT_VARS_FILE for /F "usebackq eol=; tokens=1 delims==" %%j in ("%?LOAD_DEFAULT_VARS_FILE%") do if /i "%%i" == "%%j" exit /b 1
@@ -203,7 +155,49 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_
 )
 exit /b 0
 
-:CHECK_VAR_END
+:CLEAR_VAR_END
+if %?FLAG_P% NEQ 0 echo;
+
+if %?FLAG_NO_EXPAND% NEQ 0 goto NO_EXPAND
+if not defined ?FLAG_VAR_LIST goto NO_FLAG_VAR_LIST
+
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" ^
+set "?VAR_NAME=%%j" & set "?VAR_VALUE=%%k" & call :SET_WITH_EXPAND
+exit /b 0
+
+:NO_FLAG_VAR_LIST
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" set "?VAR_NAME=%%j" & set "?VAR_VALUE=%%k" & call :SET_WITH_EXPAND
+exit /b 0
+
+:SET_WITH_EXPAND
+setlocal ENABLEDELAYEDEXPANSION
+set "?VAR_VALUE=!?VAR_VALUE:"=!"
+call set "?VAR_VALUE=!?VAR_VALUE!" & if defined ?VAR_VALUE set "?VAR_VALUE=!?VAR_VALUE:^^=^!"
+for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:="!"") do endlocal & set "?VAR_VALUE=%%j"
+setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do ^
+for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:~0,-1!") do endlocal & (
+  if %?FLAG_P% NEQ 0 echo;%%i=%%j
+  set "%%i=%%j"
+)
+exit /b 0
+
+:NO_EXPAND
+if not defined ?FLAG_VAR_LIST goto NO_FLAG_VAR_LIST
+
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" (
+  if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  set "%%j=%%k"
+)
+exit /b 0
+
+:NO_FLAG_VAR_LIST
+for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" (
+  if %?FLAG_P% NEQ 0 echo;%%j=%%k
+  set "%%j=%%k"
+)
+exit /b 0
+
+:LOAD_VARS_FILE_END
 
 if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE (
   echo;%?~%: error: os version is not detected, nothing to reset.

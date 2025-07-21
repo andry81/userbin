@@ -1,3 +1,8 @@
+2025.07.21:
+* new: tests/unit/bat/test_reset-env/test_reset-env__01_external_list: more unit tests
+* changed: scripts/bat/reset-env.bat: unset all not existed before set any
+* changed: scripts/bat/reset-env.bat: code cleanup
+
 2025.07.20:
 * new: tests/unit/bat/test_reset-env/test_reset-env__00_internal_list: unit test for `reset-env.bat -d` case
 * changed: .externals-tests: externals for tests

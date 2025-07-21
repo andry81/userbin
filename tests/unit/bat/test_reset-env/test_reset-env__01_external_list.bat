@@ -7,25 +7,37 @@ call "%%CONTOOLS_ROOT%%/std/assert_if_def.bat" __CTRL_SETLOCAL "error: cmd.exe i
 call "%%CONTOOLS_TESTLIB_ROOT%%/init.bat" "%%~f0" || exit /b
 
 call :TEST config.0.vars _common/00 00
-call :TEST config.0.vars _common/00 01_noexpand         "-noexpand"
+call :TEST config.0.vars _common/00 01_noexpand               "-noexpand"
 
-call :TEST config.0.vars _common/00 10_PATH00           "          -v PATH00" PATH00
-call :TEST config.0.vars _common/00 11_noexpand_PATH00  "-noexpand -v PATH00" PATH00
+call :TEST config.0.vars _common/00 10_PATH00                 "          -v PATH00"           PATH00
+call :TEST config.0.vars _common/00 11_PREFIX_PATH00          "          -v PREFIX -v PATH00" PREFIX PATH00
+call :TEST config.0.vars _common/00 12_noexpand_PATH00        "-noexpand -v PATH00"           PATH00
+call :TEST config.0.vars _common/00 13_noexpand_PREFIX_PATH00 "-noexpand -v PREFIX -v PATH00" PREFIX PATH00
 
-call :TEST config.0.vars _common/00 20_PATH01           "          -v PATH01" PATH01
-call :TEST config.0.vars _common/00 21_noexpand_PATH01  "-noexpand -v PATH01" PATH01
+call :TEST config.0.vars _common/00 20_PATH01                 "          -v PATH01"           PATH01
+call :TEST config.0.vars _common/00 21_PREFIX_PATH01          "          -v PREFIX -v PATH01" PREFIX PATH01
+call :TEST config.0.vars _common/00 22_noexpand_PATH01        "-noexpand -v PATH01"           PATH01
+call :TEST config.0.vars _common/00 23_noexpand_PREFIX_PATH01 "-noexpand -v PREFIX -v PATH01" PREFIX PATH01
 
-call :TEST config.0.vars _common/00 30_PATH02           "          -v PATH02" PATH02
-call :TEST config.0.vars _common/00 31_noexpand_PATH02  "-noexpand -v PATH02" PATH02
+call :TEST config.0.vars _common/00 30_PATH02                 "          -v PATH02"           PATH02
+call :TEST config.0.vars _common/00 31_PREFIX_PATH02          "          -v PREFIX -v PATH02" PREFIX PATH02
+call :TEST config.0.vars _common/00 32_noexpand_PATH02        "-noexpand -v PATH02"           PATH02
+call :TEST config.0.vars _common/00 33_noexpand_PREFIX_PATH02 "-noexpand -v PREFIX -v PATH02" PREFIX PATH02
 
-call :TEST config.0.vars _common/00 40_PATH03           "          -v PATH03" PATH03
-call :TEST config.0.vars _common/00 41_noexpand_PATH03  "-noexpand -v PATH03" PATH03
+call :TEST config.0.vars _common/00 40_PATH03                 "          -v PATH03"           PATH03
+call :TEST config.0.vars _common/00 41_PREFIX_PATH03          "          -v PREFIX -v PATH03" PREFIX PATH03
+call :TEST config.0.vars _common/00 42_noexpand_PATH03        "-noexpand -v PATH03"           PATH03
+call :TEST config.0.vars _common/00 43_noexpand_PREFIX_PATH03 "-noexpand -v PREFIX -v PATH03" PREFIX PATH03
 
-call :TEST config.0.vars _common/00 50_PATH04           "          -v PATH04" PATH04
-call :TEST config.0.vars _common/00 51_noexpand_PATH04  "-noexpand -v PATH04" PATH04
+call :TEST config.0.vars _common/00 50_PATH04                 "          -v PATH04"           PATH04
+call :TEST config.0.vars _common/00 51_PREFIX_PATH04          "          -v PREFIX -v PATH04" PREFIX PATH04
+call :TEST config.0.vars _common/00 52_noexpand_PATH04        "-noexpand -v PATH04"           PATH04
+call :TEST config.0.vars _common/00 53_noexpand_PREFIX_PATH04 "-noexpand -v PREFIX -v PATH04" PREFIX PATH04
 
-call :TEST config.0.vars _common/00 60_PATH05           "          -v PATH05" PATH05
-call :TEST config.0.vars _common/00 61_noexpand_PATH05  "-noexpand -v PATH05" PATH05
+call :TEST config.0.vars _common/00 60_PATH05                 "          -v PATH05"           PATH05
+call :TEST config.0.vars _common/00 61_PREFIX_PATH05          "          -v PREFIX -v PATH05" PREFIX PATH05
+call :TEST config.0.vars _common/00 62_noexpand_PATH05        "-noexpand -v PATH05"           PATH05
+call :TEST config.0.vars _common/00 63_noexpand_PREFIX_PATH05 "-noexpand -v PREFIX -v PATH05" PREFIX PATH05
 
 echo;
 
