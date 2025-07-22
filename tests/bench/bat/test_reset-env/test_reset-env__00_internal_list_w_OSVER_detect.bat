@@ -8,6 +8,9 @@ echo;^>%~nx0
 
 setlocal DISABLEDELAYEDEXPANSION
 
+set "WINDOWS_MAJOR_VER="
+set "WINDOWS_MINOR_VER="
+
 call "%%CONTOOLS_ROOT%%/time/begin_time.bat"
 
 for /L %%i in (1,1,10) do (

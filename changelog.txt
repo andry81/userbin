@@ -1,3 +1,9 @@
+2025.07.22:
+* new: tests/unit/bat/test_reset-env/test_reset-env__00_internal_list: more unit tests
+* new: tests/bench/bat/test_reset-env: more bench tests
+* changed: scripts/bat/reset-env.bat: flags parser is extracted into standalone script, minor optimization
+* changed: tests/unit/bat/test_reset-env/test_reset-env__00_internal_list: code improvement
+
 2025.07.21:
 * new: scripts/bat/reset-env.bat: `-allow-rename` flag to allow variable name change
 * new: tests/unit/bat/test_reset-env/test_reset-env__01_external_list: more unit tests

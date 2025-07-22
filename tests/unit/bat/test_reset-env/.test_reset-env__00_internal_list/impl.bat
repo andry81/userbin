@@ -13,36 +13,43 @@ set TEST_LAST_ERROR=0
     for /F "usebackq tokens=1,* delims=="eol^= %%i in (`@set`) do echo;%%i
   ) > "%TEST_TEMP_DATA_IN_FILE%"
 
-  call "%%USERBIN_SCRIPTS_BAT_ROOT%%/reset-env.bat" -d || (
-    set "TEST_LAST_ERROR=20" & goto ENDLOCAL_AND_EXIT
+  if not defined RESET_ENV_VAR_LIST (
+    call "%%USERBIN_SCRIPTS_BAT_ROOT%%/reset-env.bat" -d || (
+      set "TEST_LAST_ERROR=20" & goto ENDLOCAL_AND_EXIT
+    )
+    (
+      for /F "usebackq tokens=1,* delims=="eol^= %%i in (`@set`) do echo;%%i
+    ) > "%TEST_TEMP_DATA_OUT_FILE%"
+  ) else (
+    call "%%USERBIN_SCRIPTS_BAT_ROOT%%/reset-env.bat" -d || (
+      set "TEST_LAST_ERROR=20" & goto ENDLOCAL_AND_EXIT
+    )
+    (
+      for %%i in (%RESET_ENV_VAR_LIST%) do set "VAR_NAME=%%i" & call :READ_VAR
+    ) > "%TEST_TEMP_DATA_OUT_FILE%"
   )
-
-  (
-    for /F "usebackq tokens=1,* delims=="eol^= %%i in (`@set`) do echo;%%i
-  ) > "%TEST_TEMP_DATA_OUT_FILE%"
 
   endlocal
 ) >nul
 
-rem CAUTION:
-rem   1. If a variable is empty, then it would not be expanded in the `cmd.exe`
-rem      command line or in the inner expression of the
-rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
-rem      statement.
-rem   2. The `cmd.exe` command line or the inner expression of the
-rem      `for /F "usebackq ..." %%i in (`<inner-expression>`) do ...`
-rem      statement does expand twice.
-rem
-rem   We must expand the command line into a variable to avoid these above.
-rem
-set ?.=@dir "%TEST_DATA_FILE_REF_PTTN%" /A:-D /B /O:N 2^>nul
+goto READ_VAR_END
+
+:READ_VAR
+for /F "usebackq tokens=1,* delims=="eol^= %%i in (`@set %VAR_NAME%`) do (
+  echo;%%i
+  exit /b 0
+)
+
+:READ_VAR_END
+
+pushd "%TEST_DATA_REF_DIR%"
 
 set NUM_REF_FILES=0
 set NUM_PASSED_FILES=0
 
-for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do (
+for %%i in ("%TEST_DATA_FILE_REF_PTTN%") do (
   (
-    for /F "usebackq tokens=1,* delims=="eol^= %%j in (`@type "%TEST_DATA_FILE_REF_DIR%\%%i"`) do echo;%%j
+    for /F "usebackq tokens=1,* delims=="eol^= %%j in (`@type "%TEST_DATA_REF_DIR%\%%i"`) do echo;%%j
   ) > "%TEST_TEMP_DATA_REF_FILE%"
 
   type "%TEST_TEMP_DATA_IN_FILE%" | "%SystemRoot%\System32\findstr.exe" /B /E /L /I /G:"%TEST_TEMP_DATA_REF_FILE%" > "%TEST_TEMP_DATA_IN_FILTERED_BY_REF_FILE%"
@@ -55,6 +62,8 @@ for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do (
 
   set /A NUM_REF_FILES+=1
 )
+
+popd
 
 echo;
 

@@ -18,7 +18,9 @@ set TEST_LAST_ERROR=0
     call "%%USERBIN_SCRIPTS_BAT_ROOT%%/reset-env.bat" %%RESET_ENV_FLAGS_CMD_LINE%% -- "%%TEST_DATA_IN_FILE%%" || (
       set "TEST_LAST_ERROR=20" & goto ENDLOCAL_AND_EXIT
     )
-    for %%i in (%RESET_ENV_VAR_LIST%) do set %%i >> "%TEST_TEMP_DATA_OUT_FILE%"
+    (
+      for %%i in (%RESET_ENV_VAR_LIST%) do set %%i
+    ) > "%TEST_TEMP_DATA_OUT_FILE%"
   )
 
   endlocal

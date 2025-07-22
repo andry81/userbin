@@ -1,4 +1,4 @@
-@echo off
+@echo off & goto DOC_END
 
 rem USAGE:
 rem   reset-env.bat [-p] [-r] [-d] [-noexpand] [-allow-rename] [-v <var>]... [--] [<vars-file>]
@@ -44,6 +44,7 @@ rem   Has effect if `-d` flag is used, loads after a builtin list.
 
 rem Variables file list format:
 rem   [;]VAR[=VALUE]
+:DOC_END
 
 rem drop error level
 call;
@@ -53,29 +54,9 @@ if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-
 
 set "?~dp0=%~dp0"
 
-rem script flags
-set ?FLAG_P=0
-set ?FLAG_R=0
-set ?FLAG_D=0
-set ?FLAG_NO_EXPAND=0
-set ?FLAG_ALLOW_RENAME=0
-set "?FLAG_VAR_LIST="
+call "%%?~dp0%%.reset-env/reset-env.read_flags.bat" %%* || exit /b
 
-rem flags always at first
-set "?FLAG=%~1"
-
-if defined ?FLAG if not "%?FLAG:~0,1%" == "-" set "?FLAG="
-
-if defined ?FLAG if "%?FLAG%" == "-p" set "?FLAG_P=1" & shift & call set "?FLAG=%%~1"
-if defined ?FLAG if "%?FLAG%" == "-r" set "?FLAG_R=1" & shift & call set "?FLAG=%%~1"
-if defined ?FLAG if "%?FLAG%" == "-d" set "?FLAG_D=1" & shift & call set "?FLAG=%%~1"
-if defined ?FLAG if "%?FLAG%" == "-noexpand" set "?FLAG_NO_EXPAND=1" & shift & call set "?FLAG=%%~1"
-if defined ?FLAG if "%?FLAG%" == "-allow-rename" set "?FLAG_ALLOW_RENAME=1" & shift & call set "?FLAG=%%~1"
-
-:FLAG_V_LOOP
-if defined ?FLAG if "%?FLAG%" == "-v" ( set ?FLAG_VAR_LIST=%?FLAG_VAR_LIST% "%~2") & shift & shift & call set "?FLAG=%%~1" & goto FLAG_V_LOOP
-
-if defined ?FLAG if "%?FLAG%" == "--" shift
+if %?FLAG_SHIFT% GTR 0 for /L %%i in (1,1,%?FLAG_SHIFT%) do shift
 
 set "?VARS_FILE=%~1"
 
@@ -91,6 +72,12 @@ if not defined ?VARS_FILE (
 
 if %?FLAG_D% EQU 0 goto SKIP_LOAD_DEFAULT_VARS_FILE
 
+if defined WINDOWS_MAJOR_VER if defined WINDOWS_MINOR_VER (
+  set "?OSVERMAJOR=%WINDOWS_MAJOR_VER%"
+  set "?OSVERMINOR=%WINDOWS_MAJOR_VER%"
+  goto SKIP_OSVER_LOAD
+)
+
 set "?OSVER=" & for /F "usebackq tokens=1,* delims=[" %%i in (`@ver 2^>nul`) do for /F "tokens=1,* delims=]" %%k in ("%%j") do set "?OSVER=%%k"
 
 if not defined ?OSVER goto SKIP_LOAD_DEFAULT_VARS_FILE
@@ -99,6 +86,7 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "usebackq tokens=* delims="eol^= %%i in
 
 set "?OSVERMAJOR=0" & set "?OSVERMINOR=0" & for /F "tokens=1,2 delims=."eol^= %%i in ("%?OSVER%") do set "?OSVERMAJOR=%%i" & set "?OSVERMINOR=%%j"
 
+:SKIP_OSVER_LOAD
 if "%?OSVERMAJOR:~1,1%" == "" set "?OSVERMAJOR=0%?OSVERMAJOR%"
 if "%?OSVERMINOR:~1,1%" == "" set "?OSVERMINOR=0%?OSVERMINOR%"
 
@@ -109,10 +97,7 @@ for %%i in ("%?LOAD_DEFAULT_VARS_FILE_DIR%\%?OSVERMAJOR%_%?OSVERMINOR%_*.lst") d
 
 if defined ?LOAD_VARS_FILE goto LOAD_DEFAULT_VARS_FILE_END
 
-rem find closest version (greater)
-set ?.=@dir "%?LOAD_DEFAULT_VARS_FILE_DIR%\*_*_*.lst" /A:-D /B /O:N 2^>nul
-
-for /F "usebackq tokens=* delims="eol^= %%i in (`%%?.%%`) do set "?LOAD_VARS_FILE=%?LOAD_DEFAULT_VARS_FILE_DIR%\%%i" & call :LOAD_CLOSEST_VARS_FILE || exit /b & if defined ?LOAD_VARS_FILE goto LOAD_DEFAULT_VARS_FILE_END
+for %%i in ("%?LOAD_DEFAULT_VARS_FILE_DIR%\*_*_*.lst") do set "?LOAD_VARS_FILE=%%i" & call :LOAD_CLOSEST_VARS_FILE || exit /b & if defined ?LOAD_VARS_FILE goto LOAD_DEFAULT_VARS_FILE_END
 
 :LOAD_DEFAULT_VARS_FILE_END
 

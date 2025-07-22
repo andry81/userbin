@@ -1,7 +1,15 @@
 @echo off
 
-set "TEST_DATA_FILE_REF_DIR=%TEST_DATA_IN_ROOT%\%TEST_SCRIPT_FILE_NAME%\_common\env"
-set "TEST_DATA_FILE_REF_PTTN=%TEST_DATA_FILE_REF_DIR%\??_??_*.lst"
+set "TEST_DATA_FILE_REF_PTTN=%~1"
+set "TEST_DATA_FILE_REF_DIR=%~2"
+set "RESET_ENV_FLAGS_CMD_LINE=%~3"
+
+if not defined TEST_DATA_FILE_REF_PTTN exit /b 255
+if not defined TEST_DATA_FILE_REF_DIR exit /b 255
+
+call "%%CONTOOLS_ROOT%%/std/setshift.bat" 3 RESET_ENV_VAR_LIST %%*
+
+call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" TEST_DATA_REF_DIR "%%TEST_DATA_IN_ROOT%%\%%TEST_SCRIPT_FILE_NAME%%\%%TEST_DATA_FILE_REF_DIR%%"
 
 call "%%CONTOOLS_ROOT%%/std/allocate_temp_dir.bat" . "%%TEST_SCRIPT_FILE_NAME%%" "" "%%TEST_DATA_TEMP_ROOT%%" || exit /b
 
