@@ -2,7 +2,7 @@
 
 if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variable is not defined"
 
-"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/FileSystem/clear_file_streams.bat" %*
+"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/Windows/FileSystem/clear_file_streams.bat" %*
 
 rem USAGE:
 rem   clear-file-streams.bat [<flags>] [--] [<glob-path> [<streams>...]]

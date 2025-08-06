@@ -1,4 +1,8 @@
 2025.08.06:
+* new: scripts/bat: unix2dos.bat, dos2unix.bat: text format conversion scripts
+* changed: scripts/bat: paths minor change
+
+2025.08.06:
 * fixed: scripts: inappropriate default behavior of the `fc.exe`, by default it does ignore line returns difference, switched to always use the binary mode comparison
 
 2025.07.22:

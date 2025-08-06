@@ -2,7 +2,7 @@
 
 if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variable is not defined"
 
-"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/FileSystem/print_file_paths.bat" %*
+"%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/Windows/FileSystem/print_file_paths.bat" %*
 
 rem USAGE:
 rem   print-file-paths.bat [<flags>] [--] [<glob-path>]
