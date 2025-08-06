@@ -1,3 +1,6 @@
+2025.08.06:
+* fixed: scripts: inappropriate default behavior of the `fc.exe`, by default it does ignore line returns difference, switched to always use the binary mode comparison
+
 2025.07.22:
 * new: tests/unit/bat/test_reset-env/test_reset-env__00_internal_list: more unit tests
 * new: tests/bench/bat/test_reset-env: more bench tests

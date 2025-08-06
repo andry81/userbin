@@ -54,7 +54,7 @@ for %%i in ("%TEST_DATA_FILE_REF_PTTN%") do (
 
   type "%TEST_TEMP_DATA_IN_FILE%" | "%SystemRoot%\System32\findstr.exe" /B /E /L /I /G:"%TEST_TEMP_DATA_REF_FILE%" > "%TEST_TEMP_DATA_IN_FILTERED_BY_REF_FILE%"
 
-  "%SystemRoot%\System32\fc.exe" "%TEST_TEMP_DATA_OUT_FILE%" "%TEST_TEMP_DATA_IN_FILTERED_BY_REF_FILE%" >nul && (
+  "%SystemRoot%\System32\fc.exe" /B "%TEST_TEMP_DATA_OUT_FILE%" "%TEST_TEMP_DATA_IN_FILTERED_BY_REF_FILE%" >nul && (
     set /A NUM_PASSED_FILES+=1
     echo;    VALID: %%i
     call;
