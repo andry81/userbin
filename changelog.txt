@@ -1,3 +1,6 @@
+2025.08.10:
+* new: scripts/bat: `print-path-var.bat` to unfolded print of path-like variables
+
 2025.08.06:
 * new: scripts/bat: unix2dos.bat, dos2unix.bat: text format conversion scripts
 * changed: scripts/bat: paths minor change
