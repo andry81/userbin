@@ -1,3 +1,8 @@
+2025.08.18:
+* new: scripts/bat/dotnet-reg-print-ndp-keys.bat: wrapper script to print a list of installed `.NET` frameworks using registry keys
+* new: scripts/bat/exec*.bat: scripts to run a file in the PATH environment variable using a partial path
+* refactor: scripts/bat/which.bat: minor refactor
+
 2025.08.10:
 * new: scripts/bat: `print-path-var.bat` to unfolded print of path-like variables
 
