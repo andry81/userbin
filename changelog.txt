@@ -1,3 +1,7 @@
+2026.01.27:
+* changed: scripts/bat/abort.bat: code improvement
+* refactor: scripts/bat/abort.bat: code refactor
+
 2025.08.18:
 * new: scripts/bat/dotnet-reg-print-ndp-keys.bat: wrapper script to print a list of installed `.NET` frameworks using registry keys
 * new: scripts/bat/exec*.bat: scripts to run a file in the PATH environment variable using a partial path
