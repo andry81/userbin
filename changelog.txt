@@ -1,3 +1,6 @@
+2026.02.20:
+* fixed: scripts/bat/reset-env.bat: execution fixup
+
 2026.01.27:
 * changed: scripts/bat/abort.bat: code improvement
 * refactor: scripts/bat/abort.bat: code refactor
