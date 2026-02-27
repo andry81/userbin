@@ -1,3 +1,6 @@
+2026.02.27:
+* changed: .externals-tests: update to the latest
+
 2026.02.20:
 * fixed: scripts/bat/reset-env.bat: execution fixup
 
