@@ -9,6 +9,7 @@ if not defined RESET_ENV_FILE_NAME exit /b 255
 if not defined TEST_DATA_FILE_IN_DIR exit /b 255
 if not defined TEST_DATA_FILE_REF_DIR exit /b 255
 
+call "%%CONTOOLS_ROOT%%/std/setshift.bat" -num 2 1 TEST_ARGS %%*
 call "%%CONTOOLS_ROOT%%/std/setshift.bat" 4 RESET_ENV_VAR_LIST %%*
 
 call "%%CONTOOLS_ROOT%%/std/canonical_path.bat" TEST_DATA_IN_FILE "%%TEST_DATA_IN_ROOT%%\%%TEST_SCRIPT_FILE_NAME%%\%%TEST_DATA_FILE_IN_DIR%%\%%RESET_ENV_FILE_NAME%%.in"
