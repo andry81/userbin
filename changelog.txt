@@ -1,4 +1,8 @@
 2026.03.05:
+* refactor: scripts/bat/exec-new*.bat: scripts rename
+* refactor: scripts/bat/exec*.bat: minor refactor
+
+2026.03.05:
 * changed: tests/unit/bat/test_reset-env: test output improvement
 
 2026.02.27:
