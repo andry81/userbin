@@ -1,4 +1,7 @@
 2026.03.10:
+* fixed: tests/unit/bat/test_reset-env: stdin reset workaround for `fc.exe` utility (`chcp.com and fc.exe does reset the standard input` : https://github.com/andry81/contools/discussions/35)
+
+2026.03.10:
 * changed: __init__: minor improvement
 
 2026.03.05:
