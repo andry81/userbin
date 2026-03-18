@@ -1,3 +1,6 @@
+2026.03.18:
+* new: scripts/bat/rem-echo.bat: to print command line using echo on `rem %*` command
+
 2026.03.10:
 * fixed: tests/unit/bat/test_reset-env: stdin reset workaround for `fc.exe` utility (`chcp.com and fc.exe does reset the standard input` : https://github.com/andry81/contools/discussions/35)
 
