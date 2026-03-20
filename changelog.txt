@@ -1,4 +1,7 @@
 2026.03.20:
+* fixed: scripts/bat/rem-echo.bat: suppress prompt avoiding excessive line-feed character (`$S$H` instead of `$_`) and extension variables expand
+
+2026.03.20:
 * fixed: scripts/bat/rem-echo.bat: added surrounding characters to avoid echo arguments print skipping in specific cases like ending `^` character and show the end of the command line
 
 2026.03.18:
