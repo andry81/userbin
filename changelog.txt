@@ -1,3 +1,7 @@
+2026.03.24:
+* new: scripts/bat/ctrl-exit-continue.bat: script emits CTRL-EXIT (CTRL+C) signal without `Terminate Batch Job` message
+* refactor: scripts/bat/ctrl-exit.bat: rename
+
 2026.03.20:
 * fixed: scripts/bat/rem-echo.bat: suppress prompt avoiding excessive line-feed character (`$S$H` instead of `$_`) and extension variables expand
 
@@ -97,7 +101,7 @@
 
 2025.04.30:
 * new: scripts/bat/abort.bat: abort script to abort the current `cmd.exe` process execution with an optional parameter print
-* new: scripts/bat/ctrl-break.bat: script emit CTRL-BREAK signal
+* new: scripts/bat/ctrl-break.bat: script emits CTRL-EXIT (CTRL+C) signal
 * changed: scripts/bat: use `abort.bat` script in case of `PROJECTS_ROOT` environment variable is not defined
 * changed: scripts/bat: scripts reduction and minimization
 
