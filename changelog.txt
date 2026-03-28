@@ -1,3 +1,7 @@
+2026.03.28:
+* new: scripts/bat/print-args*.bat: print command line arguments scripts with characters built in encoder/decoder
+* refactor: scripts/bat/reset-env.bat: cleanup a last empty `rem` line
+
 2026.03.24:
 * new: scripts/bat/ctrl-exit-continue.bat: script emits CTRL-EXIT (CTRL+C) signal without `Terminate Batch Job` message
 * refactor: scripts/bat/ctrl-exit.bat: rename

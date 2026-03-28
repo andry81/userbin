@@ -3,16 +3,15 @@
 rem USAGE:
 rem   reset-env.bat [-p] [-r] [-d] [-noexpand] [-allow-rename] [-v <var>]... [--] [<vars-file>]
 
-rem CAUTION:
-rem   The delayed expansion feature must be disabled before this script call:
-rem   `setlocal DISABLEDELAYEDEXPANSION`, otherwise the `!` character will be
-rem   expanded.
-rem
-
 rem Description:
 rem   Script resets all environment variables using a variables list file.
 rem   By default all existing environment variables not in list(s) does clear.
 rem   A variable name must not start by `=` or `?`.
+
+rem CAUTION:
+rem   The delayed expansion feature must be disabled before this script call:
+rem   `setlocal DISABLEDELAYEDEXPANSION`, otherwise the `!` character will be
+rem   expanded.
 
 rem -p
 rem   Print variables assign.
