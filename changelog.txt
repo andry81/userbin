@@ -1,3 +1,6 @@
+2026.04.07:
+* new: scripts/bat/is-*-elevated.bat: elevation check scripts
+
 2026.03.28:
 * new: scripts/bat/print-args*.bat: print command line arguments scripts with characters built in encoder/decoder
 * refactor: scripts/bat/reset-env.bat: cleanup a last empty `rem` line
