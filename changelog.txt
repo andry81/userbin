@@ -1,4 +1,7 @@
 2026.04.07:
+* changed: _config: `CHCP` global environment variable initialization is moved into `contools` project
+
+2026.04.07:
 * new: scripts/bat/is-*-elevated.bat: elevation check scripts
 
 2026.03.28:
