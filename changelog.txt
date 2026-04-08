@@ -1,3 +1,6 @@
+2026.04.08:
+* new: scripts/bat/head.bat: improved `head` script
+
 2026.04.07:
 * changed: _config: `CHCP` global environment variable initialization is moved into `contools` project
 
