@@ -1,4 +1,7 @@
 2026.04.23:
+* new: scripts/bat/print-wmic-user-list.bat: script to print user account names and SID's
+
+2026.04.23:
 * refactor: scripts/bat: minor refactor and cleanup
 
 2026.04.08:
