@@ -12,7 +12,7 @@ rem Issues:
 rem   * The `findstr` truncates lines longer than 8180 characters
 rem     ("FINDSTR: Line NNN is too long" message).
 rem   * Line returns converts into the Windows format (CRLF).
-rem   * Is not so fast, prints ~2000 lines about 8 seconds on 3.2GHz AMD
+rem   * Is not so fast, prints ~2000 lines about 3 seconds on 2.4GHz Intel Core
 rem     processor.
 :DOC_END
 

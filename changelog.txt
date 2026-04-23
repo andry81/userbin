@@ -1,3 +1,6 @@
+2026.04.23:
+* refactor: scripts/bat: minor refactor and cleanup
+
 2026.04.08:
 * new: scripts/bat/head.bat: improved `head` script
 
