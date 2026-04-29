@@ -1,4 +1,7 @@
 2026.04.29:
+* changed: README_EN.txt: readme update
+
+2026.04.29:
 * new: scripts/bat/callf*.bat: wrapper scripts to call `callf*.exe` utilities from `contools--utils` project
 
 2026.04.23:

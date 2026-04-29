@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2025.07.17
+* 2026.04.29
 * userbin
 
 1. DESCRIPTION
@@ -46,39 +46,36 @@ Currently used these set of OS platforms and repositories:
 -------------------------------------------------------------------------------
 4. DEPENDENCIES
 -------------------------------------------------------------------------------
+* contools
 * contools--admin
+* contools--utils
 
 -------------------------------------------------------------------------------
 5. USAGE
 -------------------------------------------------------------------------------
-Put `userbin` working copy into the directory of the root of your git
-repositories directory:
+Put `userbin` working copy and dependencies into the directory of the root of
+your git repositories directory:
 
 <root>
  |
  +- andry81
- |   |
- |   +- userbin
- |       |
- |       +- userbin
- |
+     |
+     +- contools
+     |   |
+     |   +- contools
+     |   |
+     |   +- contools--admin
+     |   |
+     |   +- contools--utils
+     |
+     +- userbin
+         |
+         +- userbin
 
 NOTE:
   Some scripts basically wrappers to scripts from a dependent project.
   To read the usage description you must open the corresponding dependent
   project script.
-
-Put `contools--admin` a working copy root directory into the directory of
-the root of your git repositories directory:
-
-<root>
- |
- +- andry81
- |   |
- |   +- contools
- |       |
- |       +- contools--admin
- |
 
 Create `PROJECTS_ROOT` environment variable with path to your git repositories
 directory:
@@ -86,7 +83,7 @@ directory:
 >
 PROJECTS_ROOT=<root>
 
-Put `userbin` a working copy scripts directory into the `PATH` variable:
+Put `userbin` scripts directory path into the `PATH` variable:
 
 >
 set PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat
@@ -94,13 +91,27 @@ set PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat
 -------------------------------------------------------------------------------
 6. PROJECT CONFIGURATION VARIABLES
 -------------------------------------------------------------------------------
-To be able to use the scripts you have to declare the set of environment
+To be able to use the scripts, you have to declare the set of environment
 variables. Here is described only a limited set of variables, you have to open
 each corresponding script to find out which one variable you must to define.
 
 * PROJECTS_ROOT
 
   Main environment variable to access a tree of repositories.
+
+  Basically must exist in the Windows registry to be defined for all console
+  instances.
+  
+  To define it per script basis you have to add it into
+  `_out/config/userbin/config.0.vars` configuration file and call to
+  `__init__/__init__.bat` script.
+
+  NOTE:
+    You have to call to `__init__/__init__.bat` at least once to generate
+    the user `_out/config/userbin/config.*.vars` file from corresponding
+    template file in the `_config` directory.
+    The initialization script detects the been generated user file expiration
+    in case of the template file update from outside.
 
 -------------------------------------------------------------------------------
 7. AUTHOR
