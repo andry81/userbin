@@ -1,3 +1,6 @@
+2026.04.29:
+* new: scripts/bat/callf*.bat: wrapper scripts to call `callf*.exe` utilities from `contools--utils` project
+
 2026.04.23:
 * new: scripts/bat/print-wmic-user-list.bat: script to print user account names and SID's
 
