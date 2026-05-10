@@ -1,3 +1,6 @@
+2026.05.10:
+* new: scripts/bat/reset-font-file-permissions.bat: wrapper script to call `reset_font_file_permissions.bat` script from `contools--admin` project
+
 2026.04.29:
 * changed: README_EN.txt: readme update
 
