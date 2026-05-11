@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2026.04.29
+* 2026.05.11
 * userbin
 
 1. DESCRIPTION
@@ -31,17 +31,11 @@ Second mirror:
 -------------------------------------------------------------------------------
 3. PREREQUISITES
 -------------------------------------------------------------------------------
-Currently used these set of OS platforms and repositories:
+Currently used these set of OS platforms:
 
 1. OS platforms:
 
 * Windows XP+
-
-2. Repositories:
-
-* contools--admin
-  You must put the repository working copy into the
-  `$PROJECTS_ROOT/andry81/contools/contools--admin` directory.
 
 -------------------------------------------------------------------------------
 4. DEPENDENCIES
