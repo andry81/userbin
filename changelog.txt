@@ -1,3 +1,8 @@
+2026.05.17:
+* new: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: scripts moved from `contools` project
+* new: scripts/bat/runas/hta/README_EN.txt: readme moved from `contools` project
+* changed: README_EN.txt: readme update
+
 2026.05.16:
 * changed: scripts/bat: minor improvements, moved implementation detail scripts into `.impl` sub directory
 

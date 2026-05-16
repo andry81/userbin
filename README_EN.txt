@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2026.05.11
+* 2026.05.17
 * userbin
 
 1. DESCRIPTION
@@ -41,14 +41,17 @@ Currently used these set of OS platforms:
 4. DEPENDENCIES
 -------------------------------------------------------------------------------
 * contools
+* contools/_externals/msys2
+* contools/_externals/sysinternals
 * contools--admin
+* contools--admin/_externals/sysinternals
 * contools--utils
 
 -------------------------------------------------------------------------------
 5. USAGE
 -------------------------------------------------------------------------------
 Put `userbin` working copy and dependencies into the directory of the root of
-your git repositories directory:
+your git repositories directory including external dependencies:
 
 <root>
  |
@@ -57,8 +60,18 @@ your git repositories directory:
      +- contools
      |   |
      |   +- contools
+     |   |   |
+     |   |   +- _externals
+     |   |       |
+     |   |       +- msys2
+     |   |       |
+     |   |       +- sysinternals
      |   |
      |   +- contools--admin
+     |   |   |
+     |   |   +- _externals
+     |   |       |
+     |   |       +- sysinternals
      |   |
      |   +- contools--utils
      |
@@ -79,8 +92,7 @@ PROJECTS_ROOT=<root>
 
 Put `userbin` scripts directory path into the `PATH` variable:
 
->
-set PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat
+PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat\runas\hta
 
 -------------------------------------------------------------------------------
 6. PROJECT CONFIGURATION VARIABLES
@@ -106,6 +118,14 @@ each corresponding script to find out which one variable you must to define.
     template file in the `_config` directory.
     The initialization script detects the been generated user file expiration
     in case of the template file update from outside.
+
+* PSEXEC
+
+  To call `cmd-admin-system.bat` and `runas-admin-system.bat` scripts you have
+  to set variable to `psexec.exe` executable:
+
+  >
+  PSEXEC=%PROJECTS_ROOT%\andry81\contools\contools\_externals\sysinternals\psexec.exe
 
 -------------------------------------------------------------------------------
 7. AUTHOR
