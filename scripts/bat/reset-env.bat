@@ -53,7 +53,7 @@ if defined ?~ ( set "?~=%?~%-^>%~nx0" ) else if defined ?~nx0 ( set "?~=%?~nx0%-
 
 set "?~dp0=%~dp0"
 
-call "%%?~dp0%%.reset-env/reset-env.read_flags.bat" %%* || exit /b
+call "%%?~dp0%%.impl/reset-env.read_flags.bat" %%* || exit /b
 
 if %?FLAG_SHIFT% GTR 0 for /L %%i in (1,1,%?FLAG_SHIFT%) do shift
 

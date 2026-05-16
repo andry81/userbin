@@ -1,3 +1,6 @@
+2026.05.16:
+* changed: scripts/bat: minor improvements, moved implementation detail scripts into `.impl` sub directory
+
 2026.05.11:
 * changed: README_EN.txt: readme update
 
