@@ -1,14 +1,15 @@
 * README_EN.txt
-* 2026.05.17
+* 2026.05.19
 * userbin
 
 1. DESCRIPTION
 2. REPOSITORIES
 3. PREREQUISITES
 4. DEPENDENCIES
-5. USAGE
-6. PROJECT CONFIGURATION VARIABLES
-7. AUTHOR
+5. EXTERNALS
+6. USAGE
+7. PROJECT CONFIGURATION VARIABLES
+8. AUTHOR
 
 -------------------------------------------------------------------------------
 1. DESCRIPTION
@@ -48,7 +49,14 @@ Currently used these set of OS platforms:
 * contools--utils
 
 -------------------------------------------------------------------------------
-5. USAGE
+5. EXTERNALS
+-------------------------------------------------------------------------------
+See details in `README_EN.txt` in `externals` project:
+
+https://github.com/andry81/externals
+
+-------------------------------------------------------------------------------
+6. USAGE
 -------------------------------------------------------------------------------
 Put `userbin` working copy and dependencies into the directory of the root of
 your git repositories directory including external dependencies:
@@ -95,7 +103,7 @@ Put `userbin` scripts directory path into the `PATH` variable:
 PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat\runas\hta
 
 -------------------------------------------------------------------------------
-6. PROJECT CONFIGURATION VARIABLES
+7. PROJECT CONFIGURATION VARIABLES
 -------------------------------------------------------------------------------
 To be able to use the scripts, you have to declare the set of environment
 variables. Here is described only a limited set of variables, you have to open
@@ -128,6 +136,6 @@ each corresponding script to find out which one variable you must to define.
   PSEXEC=%PROJECTS_ROOT%\andry81\contools\contools\_externals\sysinternals\psexec.exe
 
 -------------------------------------------------------------------------------
-7. AUTHOR
+8. AUTHOR
 -------------------------------------------------------------------------------
 Andrey Dibrov (andry at inbox dot ru)

@@ -1,3 +1,9 @@
+2026.05.19:
+* new: tests/manual: manual tests for `scripts/bat/runas/hta` scripts moved from `contools` project
+* changed: script_init.bat: update to a common form
+* changed: .externals-tests: externals update
+* changed: README_EN.txt: readme update
+
 2026.05.17:
 * new: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: scripts moved from `contools` project
 * new: scripts/bat/runas/hta/README_EN.txt: readme moved from `contools` project
