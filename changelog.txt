@@ -1,3 +1,8 @@
+2026.05.29:
+* fixed: scripts/bat/runas/hta/cmd-admin*.bat: execution with empty command line
+* changed: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: code improvement and reduction
+* refactor: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: minor refactor
+
 2026.05.19:
 * new: tests/manual: manual tests for `scripts/bat/runas/hta` scripts moved from `contools` project
 * changed: script_init.bat: update to a common form

@@ -4,8 +4,10 @@ rem USAGE:
 rem   cmd-admin.bat <cmdline>...
 
 rem Description:
-rem   Script runs `cmd.exe` under UAC promotion using `mshta.exe` executable
-rem   and <cmdline> to `COMSPEC` executable.
+rem   Script runs `COMSPEC` executable with <cmdline> under UAC promotion using
+rem   `mshta.exe` executable.
+rem
+rem   If the environment is already elevated, then `mshta.exe` does skip.
 rem
 rem   The <cmdline> can contain an even number of double quotes prefixed by the
 rem   `\` character. It will be replaced by N/2 number of quotes without the
@@ -98,30 +100,31 @@ if not defined ?. exit /b %LAST_ERROR%
 
 setlocal ENABLEDELAYEDEXPANSION & for /F "usebackq tokens=* delims="eol^= %%i in ('"!?.:~5,-2!"') do endlocal & set "?.=%%~i"
 
-if not defined ?. exit /b %LAST_ERROR%
-
 call :IS_ADMIN_ELEVATED || goto CALL_ADMIN_ELEVATE_AND_EXIT
 
-rem translate Windows Batch compatible double quote escapes into escape placeholders
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""""=$3!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""=$2!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""=$1!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:"^=$1!"") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:~0,-1!") do endlocal & set "?.=%%i"
+(
+  setlocal ENABLEDELAYEDEXPANSION
 
-rem translate escape placeholders into an arbitrary number of double quotes
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$3="""!"") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:~0,-1!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$2=""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$1="!"") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:~0,-1!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$0=$!") do endlocal & set "?.=%%i"
+  if defined ?. (
+    rem translate Windows Batch compatible double quote escapes into escape placeholders
+    set "?.=!?.:$=$0!"
+    set "?.=!?.:\""""""=$3!"
+    set "?.=!?.:\""""=$2!"
+    set "?.=!?.:\""=$1!"
+    set "?.=!?.:"^=$1!"
 
-rem with locals drop
-setlocal ENABLEDELAYEDEXPANSION & ^
-for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!" !?.!') do endlocal & endlocal & %%i
-exit /b
+    rem translate escape placeholders into an arbitrary number of double quotes
+    set "?.=!?.:$3="""!"
+    set "?.=!?.:$2=""!"
+    set "?.=!?.:$1="!"
+    set "?.=!?.:$0=$!"
+  )
+
+  rem with locals drop
+  for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!" !?.!') do endlocal & endlocal & %%i
+
+  exit /b
+)
 
 rem CAUTION:
 rem   Windows 7 has an issue around the `find.exe` utility and code page 65001.
@@ -144,26 +147,31 @@ if %WINDOWS_MAJOR_VER% GEQ 6 (
 exit /b 255
 
 :CALL_ADMIN_ELEVATE_AND_EXIT
-rem translate Windows Batch compatible double quote escapes into escape placeholders
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$=$0!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""""=$3!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""""=$2!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:\""=$1!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:"^=$1!"") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:~0,-1!") do endlocal & set "?.=%%i"
+(
+  setlocal ENABLEDELAYEDEXPANSION
 
-rem translate escape placeholders into an arbitrary number of double quotes in `mshta.exe` (vbs) format
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$3=""""""""""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$2=""""""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$1=""""!") do endlocal & set "?.=%%i"
-setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.:$0=$!") do endlocal & set "?.=%%i"
+  if defined ?. (
+    rem translate Windows Batch compatible double quote escapes into escape placeholders
+    set "?.=!?.:$=$0!"
+    set "?.=!?.:\""""""=$3!"
+    set "?.=!?.:\""""=$2!"
+    set "?.=!?.:\""=$1!"
+    set "?.=!?.:"^=$1!"
 
-rem CAUTION: ShellExecute does not wait a child process close!
-rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
+    rem translate escape placeholders into an arbitrary number of double quotes in `mshta.exe` (vbs) format
+    set "?.=!?.:$3=""""""""""""!"
+    set "?.=!?.:$2=""""""""!"
+    set "?.=!?.:$1=""""!"
+    set "?.=!?.:$0=$!"
+  )
 
-rem with locals drop
-setlocal ENABLEDELAYEDEXPANSION & ^
-for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do ^
-for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal & ^
-start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""%%~j"", """", ""runas"", 1))")
-exit /b
+  rem CAUTION: ShellExecute does not wait a child process close!
+  rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
+
+  rem with locals drop
+  for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do break ^
+  & for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal ^
+  & start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""%%~j"", """", ""runas"", 1))"^)
+
+  exit /b
+)
