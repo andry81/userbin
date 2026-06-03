@@ -13,6 +13,10 @@ rem
 rem   If is not under the `SYSTEM` account, then `psexec.exe` is required in
 rem   the `PATH` or in the `PSEXEC` variable.
 rem
+rem   NOTE:
+rem     `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first
+rem     argument must not be used with the surrounded quotes.
+rem
 rem   The <cmdline> can contain an even number of double quotes prefixed by the
 rem   `\` character. It will be replaced by N/2 number of quotes without the
 rem   prefix:
@@ -21,7 +25,11 @@ rem     \"""" -> ""
 rem     \"""""" -> """
 rem     etc
 rem   The meaning is to always use an even number of quotes to insert an
-rem   arbitrary number of quotes.
+rem   arbitrary number of quotes. For example, in the `set` command, because
+rem   the `set` command argument is started by a double quote:
+rem     >
+rem     set "A=X \"" | & < > \"""
+rem     set "B=Y \"" | & < > \"" | & < > \"""" | & < > \"""""
 
 rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.
@@ -30,9 +38,33 @@ rem   line) will lead into incorrect expansion because a terminal command
 rem   line or an `.exe` command line has their own different expansion rules
 rem   including command line of the `cmd.exe` executable.
 
+rem CAUTION:
+rem   Avoid a back slash before the double quote in an executable (`.exe`)
+rem   command line, otherwise a command line parse will be broken:
+rem     >
+rem     some.exe "... ... \"
+rem                        ^ - escaped
+rem     >
+rem     some.exe "... ... \""
+rem                        ^ - escaped
+rem   To workaround:
+rem     >
+rem     some.exe "... ... \\"
+rem                        ^ - escaped
+rem     >
+rem     some.exe "... ... \\""
+rem                        ^ - escaped
+rem
+rem   A trailing double quote will be escaped in some command line parse code
+rem   runtimes. But not everywhere, for example, `cmd.exe` has different rules:
+rem
+rem     >
+rem     cmd.exe /c @echo "... ... \"
+rem                               ^ - prints as is
+
 rem NOTE:
 rem   The command line load and parse code is a copy from `callshift.bat`
-rem   script.
+rem   script from `contools` project.
 
 rem CAUTION:
 rem   If you pass a parameter or set of parameters starting the first argument,

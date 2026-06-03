@@ -1,0 +1,10 @@
+repositories:
+
+  _externals/contools--utils:
+    type:         git
+    url:          https://github.com/andry81/contools--utils
+    version:      master
+    subpaths:
+      - __init__
+      - _config
+      - bin

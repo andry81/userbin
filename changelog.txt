@@ -1,3 +1,9 @@
+2026.06.03:
+* new: samples/scripts: scripts moved from `contools` project
+* new: .externals-samples: standalone dependencies for `samples`
+* changed: samples/scripts/bat/mshta_cmd_elevate.bat: merge with `scripts/bat/runas/hta/*.bat` scripts
+* refactor: scripts/bat: documentation refactor
+
 2026.05.29:
 * fixed: scripts/bat/runas/hta/cmd-admin*.bat: execution with empty command line
 * changed: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: code improvement and reduction

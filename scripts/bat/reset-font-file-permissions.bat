@@ -5,7 +5,7 @@ if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variabl
 "%PROJECTS_ROOT%/andry81/contools/contools--admin/scripts/Windows/Fonts/reset_font_file_permissions.bat" %*
 
 rem USAGE:
-rem   update_file_permissions.bat [<flags>] [--] <glob-files>...
+rem   reset_font_file_permissions.bat [<flags>] [--] <glob-files>...
 
 rem Description:
 rem   Script to update a font file permissions before or after install into

@@ -9,6 +9,10 @@ rem   Prints `||` in case of empty arguments.
 
 rem CAUTION:
 rem   Would print nothing if called as `cmd.exe /Q ...`.
+
+rem NOTE:
+rem   The command line load and parse code is a copy from `callshift.bat`
+rem   script in the `contools` project.
 :DOC_END
 
 setlocal DISABLEDELAYEDEXPANSION & set "LAST_ERROR=%ERRORLEVEL%"
