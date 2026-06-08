@@ -104,7 +104,7 @@ rem      rem |"123 & 456"|
 rem      rem |"654 | 321"|
 :DOC_END
 
-rem with save of previous error level, second `setlocal` to drop locals before a command line execution
+rem with save of previous error level
 setlocal DISABLEDELAYEDEXPANSION & setlocal & set LAST_ERROR=%ERRORLEVEL%
 
 if defined SCRIPT_TEMP_CURRENT_DIR (
@@ -203,7 +203,7 @@ exit /b 255
   rem with locals drop
   for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMSPEC!"') do break ^
   & for /F "usebackq tokens=* delims="eol^= %%j in ('"!?.!"') do endlocal & endlocal ^
-  & start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""%%~j"", """", ""runas"", 1))"^)
+  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""%%~j"", """", ""runas"", 1))"^)
 
   exit /b
 )

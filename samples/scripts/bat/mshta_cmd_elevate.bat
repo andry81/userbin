@@ -132,8 +132,8 @@ set ?.
 
 echo;---
 
-echo Executed as `start /B /WAIT "" mshta.exe ^<?.^>` (without quotes):
+echo Executed as `start "" /B /WAIT mshta.exe ^<?.^>` (without quotes):
 echo;
 
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?.!") do endlocal & ^
-start /B /WAIT "" "%SystemRoot%\System32\mshta.exe" %%i
+start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" %%i
