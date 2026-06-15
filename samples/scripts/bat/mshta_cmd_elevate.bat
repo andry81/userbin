@@ -34,9 +34,9 @@ rem   to avoid the command line breakage.
 rem   All the `"` does process for the same reason.
 
 rem CAUTION:
-rem   The `ShellExecute` API does expand the %-variables in the context of an
-rem   elevated process. You must properly escape these to avoid the expansion
-rem   before the elevation!
+rem   The `cmd.exe` does expand the %-variables in the context of an elevated
+rem   process. You must properly escape these to avoid the expansion before the
+rem   elevation!
 
 rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.

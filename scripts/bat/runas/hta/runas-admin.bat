@@ -36,9 +36,9 @@ rem   to avoid the command line breakage.
 rem   All the `"` does process for the same reason.
 
 rem CAUTION:
-rem   The `ShellExecute` API does expand the %-variables in the context of an
-rem   elevated process. You must properly escape these to avoid the expansion
-rem   before the elevation!
+rem   The `cmd.exe` does expand the %-variables in the context of an elevated
+rem   process. You must properly escape these to avoid the expansion before the
+rem   elevation!
 
 rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.
@@ -191,11 +191,11 @@ call :SPLIT_COMMAND_LINE
   setlocal ENABLEDELAYEDEXPANSION
 
   rem translate Windows Batch compatible double quote escapes into escape placeholders
-  if defined COMSPEC (
+  if defined COMMAND (
     rem escape %-escapes
-    set "COMSPEC=!COMSPEC:%%=%%25!"
+    set "COMMAND=!COMMAND:%%=%%25!"
 
-    set "COMMAND=!COMSPEC:$=$0!"
+    set "COMMAND=!COMMAND:$=$0!"
     set "COMMAND=!COMMAND:\""""""=$3!"
     set "COMMAND=!COMMAND:\""""=$2!"
     set "COMMAND=!COMMAND:\""=$1!"

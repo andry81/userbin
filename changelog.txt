@@ -1,4 +1,9 @@
 2026.06.15:
+* fixed: scripts/bat/runas/hta: cmd-admin-system.bat, runas-admin*.bat: execution fixup
+* refactor: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: refactor
+* refactor: samples/scripts/bat/mshta_cmd_elevate.bat: refactor
+
+2026.06.15:
 * refactor: samples/scripts/bat/mshta_cmd_elevate.bat: minor cleanup
 
 2026.06.15:
