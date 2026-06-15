@@ -138,7 +138,7 @@ rem Command line variant for `mshta.exe` executable
   set "?.=!?.:\""""=$2!"
   set "?.=!?.:\""=$1!"
 
-  rem translate escape placeholders into `mshta.exe` (vbs) escapes (`""` is a single nested `"`, `""""` is a double nested `"` and so on)
+  rem translate escape placeholders into `mshta.exe` (vbs) escapes
   set "?.=!?.:$3=""""!"
   set "?.=!?.:$2=""!"
   set "?.=!?.:$1="!"

@@ -1,4 +1,7 @@
 2026.06.15:
+* refactor: samples/scripts/bat/mshta_cmd_elevate.bat: minor cleanup
+
+2026.06.15:
 * fixed: scripts/bat/runas/hta: cmd-admin-system.bat, runas-admin-system.bat: missed to escape `PSEXEC` variable
 
 2026.06.15:
