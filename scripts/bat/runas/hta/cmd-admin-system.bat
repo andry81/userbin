@@ -228,6 +228,11 @@ set "COMMAND="
   setlocal ENABLEDELAYEDEXPANSION
 
   rem translate Windows Batch compatible double quote escapes into escape placeholders
+  if defined PSEXEC (
+    rem escape %-escapes
+    set "PSEXEC=!PSEXEC:%%=%%25!"
+  )
+
   if defined COMSPEC (
     rem escape %-escapes
     set "COMSPEC=!COMSPEC:%%=%%25!"
