@@ -28,6 +28,17 @@ rem     set "A=X \"" | & < > \"""
 rem     set "B=Y \"" | & < > \"" | & < > \"""" | & < > \"""""
 
 rem CAUTION:
+rem   The `mshta.exe` does expand all the %-escape placeholders (`%NN`).
+rem   The script does prevent the expansion by replacing all the `%` by `%25`
+rem   to avoid the command line breakage.
+rem   All the `"` does process for the same reason.
+
+rem CAUTION:
+rem   The `ShellExecute` API does expand the %-variables in the context of an
+rem   elevated process. You must properly escape these to avoid the expansion
+rem   before the elevation!
+
+rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.
 rem   Any attempt to use it outside of a script (including a terminal command
 rem   line) will lead into incorrect expansion because a terminal command
@@ -85,8 +96,8 @@ rem
 rem      cmd-admin.bat %CMDLINE%
 rem      
 rem      <
-rem      rem |"123 & 456"|
-rem      rem |"654 | 321"|
+rem      |"123 & 456"|
+rem      |"654 | 321"|
 rem
 rem   3. With Windows Batch compatible double quote escapes
 rem      >
@@ -100,8 +111,8 @@ rem
 rem      cmd-admin.bat %CMDLINE%
 rem      
 rem      <
-rem      rem |"123 & 456"|
-rem      rem |"654 | 321"|
+rem      |"123 & 456"|
+rem      |"654 | 321"|
 :DOC_END
 
 rem with save of previous error level
@@ -182,7 +193,15 @@ exit /b 255
 (
   setlocal ENABLEDELAYEDEXPANSION
 
+  if defined COMSPEC (
+    rem escape %-escapes
+    set "COMSPEC=!COMSPEC:%%=%%25!"
+  )
+
   if defined ?. (
+    rem escape %-escapes
+    set "?.=!?.:%%=%%25!"
+
     rem translate Windows Batch compatible double quote escapes into escape placeholders
     set "?.=!?.:$=$0!"
     set "?.=!?.:\""""""=$3!"

@@ -32,6 +32,17 @@ rem     set "A=X \"" | & < > \"""
 rem     set "B=Y \"" | & < > \"" | & < > \"""" | & < > \"""""
 
 rem CAUTION:
+rem   The `mshta.exe` does expand all the %-escape placeholders (`%NN`).
+rem   The script does prevent the expansion by replacing all the `%` by `%25`
+rem   to avoid the command line breakage.
+rem   All the `"` does process for the same reason.
+
+rem CAUTION:
+rem   The `ShellExecute` API does expand the %-variables in the context of an
+rem   elevated process. You must properly escape these to avoid the expansion
+rem   before the elevation!
+
+rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.
 rem   Any attempt to use it outside of a script (including a terminal command
 rem   line) will lead into incorrect expansion because a terminal command
@@ -99,8 +110,8 @@ rem
 rem      cmd-admin-system.bat %CMDLINE%
 rem      
 rem      <
-rem      rem |"123 & 456"|
-rem      rem |"654 | 321"|
+rem      |"123 & 456"|
+rem      |"654 | 321"|
 rem
 rem   3. With Windows Batch compatible double quote escapes
 rem      >
@@ -115,8 +126,8 @@ rem
 rem      cmd-admin-system.bat %CMDLINE%
 rem      
 rem      <
-rem      rem |"123 & 456"|
-rem      rem |"654 | 321"|
+rem      |"123 & 456"|
+rem      |"654 | 321"|
 :DOC_END
 
 rem with save of previous error level
@@ -217,13 +228,21 @@ set "COMMAND="
   setlocal ENABLEDELAYEDEXPANSION
 
   rem translate Windows Batch compatible double quote escapes into escape placeholders
-  set "COMMAND=!COMSPEC:$=$0!"
-  set "COMMAND=!COMMAND:\""""""=$3!"
-  set "COMMAND=!COMMAND:\""""=$2!"
-  set "COMMAND=!COMMAND:\""=$1!"
-  set "COMMAND=!COMMAND:"^=$1!"
+  if defined COMSPEC (
+    rem escape %-escapes
+    set "COMSPEC=!COMSPEC:%%=%%25!"
+
+    set "COMMAND=!COMSPEC:$=$0!"
+    set "COMMAND=!COMMAND:\""""""=$3!"
+    set "COMMAND=!COMMAND:\""""=$2!"
+    set "COMMAND=!COMMAND:\""=$1!"
+    set "COMMAND=!COMMAND:"^=$1!"
+  )
 
   if defined ?. (
+    rem escape %-escapes
+    set "?.=!?.:%%=%%25!"
+
     set "?.=!?.:$=$0!"
     set "?.=!?.:\""""""=$3!"
     set "?.=!?.:\""""=$2!"
@@ -232,10 +251,12 @@ set "COMMAND="
   )
 
   rem translate escape placeholders into an arbitrary number of double quotes in `mshta.exe` (vbs) format
-  set "COMMAND=!COMMAND:$3=""""""""""""!"
-  set "COMMAND=!COMMAND:$2=""""""""!"
-  set "COMMAND=!COMMAND:$1=""""!"
-  set "COMMAND=!COMMAND:$0=$!"
+  if defined COMSPEC (
+    set "COMMAND=!COMMAND:$3=""""""""""""!"
+    set "COMMAND=!COMMAND:$2=""""""""!"
+    set "COMMAND=!COMMAND:$1=""""!"
+    set "COMMAND=!COMMAND:$0=$!"
+  )
 
   if defined ?. (
     set "?.=!?.:$3=""""""""""""!"

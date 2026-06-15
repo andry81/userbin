@@ -28,6 +28,17 @@ rem     set "A=X \"" | & < > \"""
 rem     set "B=Y \"" | & < > \"" | & < > \"""" | & < > \"""""
 
 rem CAUTION:
+rem   The `mshta.exe` does expand all the %-escape placeholders (`%NN`).
+rem   The script does prevent the expansion by replacing all the `%` by `%25`
+rem   to avoid the command line breakage.
+rem   All the `"` does process for the same reason.
+
+rem CAUTION:
+rem   The `ShellExecute` API does expand the %-variables in the context of an
+rem   elevated process. You must properly escape these to avoid the expansion
+rem   before the elevation!
+
+rem CAUTION:
 rem   `\""`, `\""""`, etc expressions only has meaning inside a `.bat` script.
 rem   Any attempt to use it outside of a script (including a terminal command
 rem   line) will lead into incorrect expansion because a terminal command
@@ -82,8 +93,11 @@ echo;
 (
   setlocal ENABLEDELAYEDEXPANSION
 
+  rem escape %-escapes
+  set "?.=!__QARG0__:%%=%%25!"
+
   rem translate Windows Batch compatible escapes into escape placeholders
-  set "?.=!__QARG0__:$=$0!"
+  set "?.=!?.:$=$0!"
   set "?.=!?.:\""""""=$3!"
   set "?.=!?.:\""""=$2!"
   set "?.=!?.:\""=$1!"
@@ -115,8 +129,11 @@ rem Command line variant for `mshta.exe` executable
 (
   setlocal ENABLEDELAYEDEXPANSION
 
+  rem escape %-escapes
+  set "?.=!__QARG0__:%%=%%25!"
+
   rem translate Windows Batch compatible escapes into escape placeholders
-  set "?.=!__QARG0__:$=$0!"
+  set "?.=!?.:$=$0!"
   set "?.=!?.:\""""""=$3!"
   set "?.=!?.:\""""=$2!"
   set "?.=!?.:\""=$1!"

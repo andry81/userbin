@@ -1,3 +1,10 @@
+2026.06.15:
+* fixed: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: `%NN` expansion prevention
+* fixed: samples/__init__/__init__.bat: execution fixup
+* changed: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: minor improvement
+* changed: samples/scripts/bat/mshta_cmd_elevate.bat: minor improvement
+* refactor: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: code refactor
+
 2026.06.08:
 * changed: *.bat: `start` command call documented format
 
