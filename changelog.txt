@@ -1,3 +1,6 @@
+2026.06.16:
+* fixed: scripts/bat/*.bat: `The syntax of the command is incorrect.` in case of a very long command line
+
 2026.06.15:
 * fixed: scripts/bat/runas/hta: cmd-admin-system.bat, runas-admin*.bat: execution fixup
 * refactor: scripts/bat/runas/hta: cmd-admin*.bat, runas-admin*.bat: refactor
