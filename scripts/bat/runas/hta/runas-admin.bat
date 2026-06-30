@@ -10,30 +10,51 @@ rem   If the environment is already elevated, then `mshta.exe` does skip.
 rem
 rem   The command line does split by the first argument to be passed into
 rem   `ShellExecute` function.
-rem
-rem   NOTE:
-rem     `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first
-rem     argument must not be used with the surrounded quotes.
-rem
+
+rem NOTE:
+rem   Based on:
+rem     `Uniform variant of a command line as a single argument for the mshta.exe executable and other cases` :
+rem     https://github.com/andry81/contools/discussions/11
+
+rem NOTE:
 rem   The <cmdline> can contain an even number of double quotes prefixed by the
-rem   `\` character. It will be replaced by N/2 number of quotes without the
-rem   prefix:
-rem     \"" -> "
-rem     \"""" -> ""
-rem     \"""""" -> """
+rem   `\` character.
+rem
+rem   It can be replaced by N/2 number of quotes without the prefix or
+rem   a quote with N/2-nested escape sequence:
+rem
+rem     \""     -> "    or \"
+rem     \""""   -> ""   or \\\"
+rem     \"""""" -> """  or \\\\\\\"
 rem     etc
+rem
 rem   The meaning is to always use an even number of quotes to insert an
-rem   arbitrary number of quotes. For example, in the `set` command, because
+rem   arbitrary number of quotes with or without an escape sequence.
+rem
+rem   For example, in the `set` command, because
 rem   the `set` command argument is started by a double quote:
+rem
 rem     >
 rem     set "A=X \"" | & < > \"""
 rem     set "B=Y \"" | & < > \"" | & < > \"""" | & < > \"""""
 
 rem CAUTION:
+rem   The environment variables does use by the shell code to workaround the
+rem   `mshta.exe` command line length limitation (see the link).
+
+rem CAUTION:
 rem   The `mshta.exe` does expand all the %-escape placeholders (`%NN`).
-rem   The script does prevent the expansion by replacing all the `%` by `%25`
-rem   to avoid the command line breakage.
+rem   The script does not use `%` character in the shell code. In case of a
+rem   change in the future you must prevent the expansion by replacing all the
+rem   `%` by `%25` to avoid the command line breakage.
 rem   All the `"` does process for the same reason.
+
+rem NOTE:
+rem   The `ExecuteGlobal` is used as a workaround, because the `mshta.exe`
+rem   first argument must not be used with the surrounded quotes.
+
+rem CAUTION:
+rem   The `ShellExecute` does not wait a child process close.
 
 rem CAUTION:
 rem   The `cmd.exe` does expand the %-variables in the context of an elevated
@@ -70,6 +91,19 @@ rem
 rem     >
 rem     cmd.exe /c @echo "... ... \"
 rem                               ^ - prints as is
+
+rem NOTE:
+rem   The `::"::"::` is an unexisted statement in the VBS
+rem   (error: `VBScript compilation error: Expected statement`) in case of
+rem   strip from a string with a valid VBS shell code. So it can be used as a
+rem   VBS shell code lines delimiter in another shell code or Windows Batch
+rem   script.
+
+rem CAUTION:
+rem   If you pass a parameter or set of parameters starting the first argument,
+rem   then these may be skipped, due to the internal `cmd.exe` command line
+rem   parse logic. The command line does not ignored if started using the slash
+rem   character with the known option - `/k`, `/c` and etc.
 
 rem NOTE:
 rem   The command line load and parse code is a copy from
@@ -110,7 +144,7 @@ rem      |"123 & 456"|
 rem      |"654 | 321"|
 :DOC_END
 
-rem with save of previous error level
+rem second `setlocal` to drop locals before a command line execution, with save of previous error level
 setlocal DISABLEDELAYEDEXPANSION & setlocal & set LAST_ERROR=%ERRORLEVEL%
 
 if defined SCRIPT_TEMP_CURRENT_DIR (
@@ -146,7 +180,7 @@ call :IS_ADMIN_ELEVATED || goto CALL_ADMIN_ELEVATE_AND_EXIT
 (
   setlocal ENABLEDELAYEDEXPANSION
 
-  rem translate Windows Batch compatible double quote escapes into escape placeholders
+  rem translate Windows Batch compatible escapes into escape placeholders
   set "?.=!?.:$=$0!"
   set "?.=!?.:\""""""=$3!"
   set "?.=!?.:\""""=$2!"
@@ -160,8 +194,7 @@ call :IS_ADMIN_ELEVATED || goto CALL_ADMIN_ELEVATE_AND_EXIT
   set "?.=!?.:$0=$!"
 
   rem with locals drop
-  for /F "usebackq tokens=* delims="eol^= %%i in ('"!?.!"') do endlocal & endlocal & %%~i
-
+  for /F "tokens=* delims="eol^= %%i in ("!?.!") do endlocal & endlocal & %%i
   exit /b
 )
 
@@ -186,57 +219,72 @@ if %WINDOWS_MAJOR_VER% GEQ 6 (
 exit /b 255
 
 :CALL_ADMIN_ELEVATE_AND_EXIT
+rem shell code
+set "__SCRIPT__=ExecuteGlobal(\""Set objProc = CreateObject(\""""WScript.Shell\"""").Environment(\""""Process\"""") : ::"^
+::"::Close(CreateObject(\""""Shell.Application\"""").ShellExecute(objProc(\""""?0\""""), objProc(\""""?@\""""), \""""\"""", \""""runas\"""", 1))\"")"
+
+set "__SCRIPT__=%__SCRIPT__:::"::"::=%"
+
+rem command
+set "?0="
+
+rem args
+set "?@="
+
 call :SPLIT_COMMAND_LINE
 
 (
   setlocal ENABLEDELAYEDEXPANSION
 
-  rem translate Windows Batch compatible double quote escapes into escape placeholders
-  if defined COMMAND (
-    rem escape %-escapes
-    set "COMMAND=!COMMAND:%%=%%25!"
+  rem translate Windows Batch compatible escapes into escape placeholders
+  set "__SCRIPT__=!__SCRIPT__:$=$0!"
+  set "__SCRIPT__=!__SCRIPT__:\""""""=$3!"
+  set "__SCRIPT__=!__SCRIPT__:\""""=$2!"
+  set "__SCRIPT__=!__SCRIPT__:\""=$1!"
+  set "__SCRIPT__=!__SCRIPT__:"^=$1!"
 
-    set "COMMAND=!COMMAND:$=$0!"
-    set "COMMAND=!COMMAND:\""""""=$3!"
-    set "COMMAND=!COMMAND:\""""=$2!"
-    set "COMMAND=!COMMAND:\""=$1!"
-    set "COMMAND=!COMMAND:"^=$1!"
+  if defined ?0 (
+    set "?0=!?0:$=$0!"
+    set "?0=!?0:\""""""=$3!"
+    set "?0=!?0:\""""=$2!"
+    set "?0=!?0:\""=$1!"
+    set "?0=!?0:"^=$1!"
   )
 
-  if defined ?. (
-    rem escape %-escapes
-    set "?.=!?.:%%=%%25!"
-
-    set "?.=!?.:$=$0!"
-    set "?.=!?.:\""""""=$3!"
-    set "?.=!?.:\""""=$2!"
-    set "?.=!?.:\""=$1!"
-    set "?.=!?.:"^=$1!"
+  if defined ?@ (
+    set "?@=!?@:$=$0!"
+    set "?@=!?@:\""""""=$3!"
+    set "?@=!?@:\""""=$2!"
+    set "?@=!?@:\""=$1!"
+    set "?@=!?@:"^=$1!"
   )
 
-  rem translate escape placeholders into an arbitrary number of double quotes in `mshta.exe` (vbs) format
-  if defined COMSPEC (
-    set "COMMAND=!COMMAND:$3=""""""""""""!"
-    set "COMMAND=!COMMAND:$2=""""""""!"
-    set "COMMAND=!COMMAND:$1=""""!"
-    set "COMMAND=!COMMAND:$0=$!"
+  rem translate escape placeholders into `mshta.exe` (vbs) escapes
+  set "__SCRIPT__=!__SCRIPT__:$3=""""!"
+  set "__SCRIPT__=!__SCRIPT__:$2=""!"
+  set "__SCRIPT__=!__SCRIPT__:$1="!"
+  set "__SCRIPT__=!__SCRIPT__:$0=$!"
+
+  if defined ?0 (
+    set "?0=!?0:$3=""""!"
+    set "?0=!?0:$2=""!"
+    set "?0=!?0:$1="!"
+    set "?0=!?0:$0=$!"
   )
 
-  if defined ?. (
-    set "?.=!?.:$3=""""""""""""!"
-    set "?.=!?.:$2=""""""""!"
-    set "?.=!?.:$1=""""!"
-    set "?.=!?.:$0=$!"
+  if defined ?@ (
+    set "?@=!?@:$3=""""!"
+    set "?@=!?@:$2=""!"
+    set "?@=!?@:$1="!"
+    set "?@=!?@:$0=$!"
   )
-
-  rem CAUTION: ShellExecute does not wait a child process close!
-  rem NOTE: `ExecuteGlobal` is used as a workaround, because the `mshta.exe` first argument must not be used with the surrounded quotes
 
   rem with locals drop
-  for /F "usebackq tokens=* delims="eol^= %%i in ('"!COMMAND!"') do break ^
-  & for /F "usebackq tokens=* delims="eol^= %%j in ('"!ARGS!"') do endlocal & endlocal ^
-  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:ExecuteGlobal("Close(CreateObject(""Shell.Application"").ShellExecute(""%%~i"", ""%%~j"", """", ""runas"", 1))"^)
-
+  for /F "tokens=* delims="eol^= %%i in ("!__SCRIPT__!") do break ^
+  & for /F "usebackq tokens=* delims="eol^= %%j in ('"!?0!"') do break ^
+  & for /F "usebackq tokens=* delims="eol^= %%k in ('"!?@!"') do endlocal & endlocal ^
+  & set "?0=%%~j" & set "?@=%%~k" ^
+  & start "" /B /WAIT "%SystemRoot%\System32\mshta.exe" vbscript:%%i
   exit /b
 )
 
@@ -284,9 +332,6 @@ set "?.=!?.:^=$5E!" & set "?.=!?.:%%=$25!" & set "?.=!?.:+=$2B!" & ^
 set "?.=!?.:?=$3F!" & set "?.=!?.:,=$2C!"  & set "?.=!?.:;=$3B!" & ^
 for /F "tokens=* delims="eol^= %%i in ("!?.!") do endlocal & set "?.=%%i"
 
-set "COMMAND="
-set "ARGS="
-
 setlocal ENABLEDELAYEDEXPANSION & set "?.=!?.:$22="!" & ^
 for /F "tokens=* delims="eol^= %%i in ("!?.!") do endlocal & for %%j in (%%i) do (
   set "__ARG__=%%j" & setlocal ENABLEDELAYEDEXPANSION & set "__ARG__=!__ARG__:"=$22!"
@@ -301,10 +346,10 @@ for /F "tokens=* delims="eol^= %%i in ("!?.!") do endlocal & for %%j in (%%i) do
   & set "__ARG__=!__ARG__:$3F=?!" & set "__ARG__=!__ARG__:$2A=*!" ^
   & set "__ARG__=!__ARG__:$2C=,!" & set "__ARG__=!__ARG__:$3B=;!"  & set "__ARG__=!__ARG__:$3D==!" & set "__ARG__=!__ARG__:$24=$!" ^
   & for /F "tokens=* delims="eol^= %%i in ("!__ARG__!") do break ^
-  & if defined COMMAND (
-    for /F "usebackq tokens=* delims="eol^= %%j in ('"!ARGS!"') do endlocal & set "ARGS=%%~j %%i"
-  ) else endlocal & set "COMMAND=%%i"
+  & if defined ?0 (
+    for /F "usebackq tokens=* delims="eol^= %%j in ('"!?@!"') do endlocal & set "?@=%%~j %%i"
+  ) else endlocal & set "?0=%%i"
 )
 
-if defined ARGS ^
-setlocal ENABLEDELAYEDEXPANSION & for /F "usebackq tokens=* delims="eol^= %%i in ('"!ARGS:~1!"') do endlocal & set "ARGS=%%~i"
+if defined ?@ ^
+setlocal ENABLEDELAYEDEXPANSION & for /F "usebackq tokens=* delims="eol^= %%i in ('"!?@:~1!"') do endlocal & set "?@=%%~i"
