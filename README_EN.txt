@@ -1,5 +1,5 @@
 * README_EN.txt
-* 2026.05.19
+* 2026.07.03
 * userbin
 
 1. DESCRIPTION
@@ -101,6 +101,10 @@ PROJECTS_ROOT=<root>
 Put `userbin` scripts directory path into the `PATH` variable:
 
 PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat\runas\hta
+
+Or
+
+PATH=%PATH%;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat;%PROJECTS_ROOT%\andry81\userbin\userbin\scripts\bat\runas\wsf
 
 -------------------------------------------------------------------------------
 7. PROJECT CONFIGURATION VARIABLES
