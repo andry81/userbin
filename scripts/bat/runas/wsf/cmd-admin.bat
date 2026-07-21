@@ -12,7 +12,7 @@ rem
 rem   If the environment is already elevated, then `WSF` does skip.
 
 rem NOTE:
-rem   Based on:
+rem   The elevation shell code is based on:
 rem     `Uniform variant of a command line as a single argument for the mshta.exe executable and other cases` :
 rem     https://github.com/andry81/contools/discussions/11
 

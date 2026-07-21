@@ -16,7 +16,7 @@ rem   If is not under the `SYSTEM` account, then `psexec.exe` is required in
 rem   the `PATH` or in the `PSEXEC` variable.
 
 rem NOTE:
-rem   Based on:
+rem   The elevation shell code is based on:
 rem     `Uniform variant of a command line as a single argument for the mshta.exe executable and other cases` :
 rem     https://github.com/andry81/contools/discussions/11
 
