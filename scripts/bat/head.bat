@@ -19,7 +19,11 @@ rem     processor.
 setlocal DISABLEDELAYEDEXPANSION
 
 set "NUM=%~1"
-if not defined NUM set NUM=-1
+if not defined NUM ( set "NUM=-1" ) else set /A NUM+=0
+
+if %NUM% LSS 0 "%SystemRoot%\System32\findstr.exe" /R /C:"^" 2>nul & exit /b
+if %NUM% EQU 0 exit /b 0
+
 set "STR_PREFIX=%~2"
 set "STR_SUFFIX=%~3"
 
@@ -28,7 +32,7 @@ set LINE_INDEX=0
 for /F "usebackq tokens=* delims="eol^= %%i in (`@"%%SystemRoot%%\System32\findstr.exe" /N /R /C:"^" 2^>nul`) do (
   set "LINE_STR=%%i"
   setlocal ENABLEDELAYEDEXPANSION
-  if !NUM! GEQ 0 if !LINE_INDEX! GEQ !NUM! exit /b 0
+  if !LINE_INDEX! GEQ !NUM! exit /b 0
   for /F "usebackq tokens=* delims="eol^= %%j in ('"!STR_PREFIX!!LINE_STR:*:=!!STR_SUFFIX!"') do endlocal & echo;%%~j
   set /A LINE_INDEX+=1
 )

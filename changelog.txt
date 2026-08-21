@@ -1,3 +1,6 @@
+2026.08.21:
+* changed: scripts/bat/head.bat: minor improvement
+
 2026.07.18:
 * refactor: scripts/bat/runas/hta, scripts/bat/runas/wsf: cmd-admin*.bat, runas-admin*.bat: minor refactor
 
