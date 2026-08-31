@@ -111,7 +111,7 @@ setlocal DISABLEDELAYEDEXPANSION & setlocal
 call "%%~dp0..\..\__init__\__init__.bat" || exit /b
 
 rem CAUTION:
-rem   The `cd "%CD%" ^& %CD:~0,2%` must be before the command, otherwise the system root will be the current directory!
+rem   The `cd /d "%CD%"` must be before the command, otherwise the system root will be the current directory!
 rem
 
 for /F "tokens=* delims="eol^= %%i in ("%CD%\.") do set "CWD=%%~fi"
@@ -119,7 +119,7 @@ for /F "tokens=* delims="eol^= %%i in ("%CD%\.") do set "CWD=%%~fi"
 if "%CWD:~-1%" == "\" set "CWD=%CWD%."
 
 rem Windows Batch compatible command line with escapes
-set "__CMDLINE__=/k @set \""IMPL_MODE=1\"" & cd \""%CWD%\"" & %CWD:~0,2% & \""%CONTOOLS_UTILS_BIN_ROOT%/contools/printargs.exe\"" \""123 456\"""
+set "__CMDLINE__=/k @set \""IMPL_MODE=1\"" & cd /d \""%CWD%\"" & \""%CONTOOLS_UTILS_BIN_ROOT%/contools/printargs.exe\"" \""123 456\"""
 
 set "__SCRIPT__=ExecuteGlobal(\""Set objProc = CreateObject(\""""WScript.Shell\"""").Environment(\""""Process\"""") : ::"^
 ::"::Close(CreateObject(\""""Shell.Application\"""").ShellExecute(objProc(\""""?0\""""), objProc(\""""?@\""""), \""""\"""", \""""runas\"""", 1))\"")"
