@@ -1,8 +1,11 @@
 2026.10.07:
+* new: scripts/bat/print-wmi-*.bat: scripts to enumerates WMI classes and class properties
+
+2026.10.07:
 * refactor: scripts/bat/*.bat: scripts refactor
 
 2026.08.31:
-* changed: scripts: *.bat: switched to use `cd /d` command with drive change
+* changed: scripts/*.bat: switched to use `cd /d` command with drive change
 
 2026.08.21:
 * changed: scripts/bat/head.bat: minor improvement
