@@ -6,4 +6,4 @@ if not defined PROJECTS_ROOT "%~dp0abort.bat" "PROJECTS_ROOT environment variabl
 exit /b
 
 rem USAGE:
-rem   read-path-props.vbs <flags> [--] <PropertyPattern> <Path>
+rem   print-path-props.vbs <flags> [--] <PropertyPattern> <Path>
