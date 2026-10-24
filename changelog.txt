@@ -1,3 +1,7 @@
+2026.10.20:
+* changed: samples/scripts/bat/mshta_cmd_elevate.bat: minor improvement
+* refactor: script/bat/*.bat: documentation minor refactor
+
 2026.10.07:
 * new: scripts/bat/print-drives-list.bat: script to print disk drives list
 

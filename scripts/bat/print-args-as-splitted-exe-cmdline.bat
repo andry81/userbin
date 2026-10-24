@@ -45,7 +45,7 @@ setlocal ENABLEDELAYEDEXPANSION & for /F "usebackq tokens=* delims="eol^= %%i in
 
 if not defined ?. (echo;^|^|) & exit /b %LAST_ERROR%
 
-rem Encode these characters (see general implementation in `std/encode/encode_sys_chars_exe_cmdline.bat` script):
+rem Encode these characters, copy of `std/encode/encode_sys_chars_exe_cmdline.bat` script:
 rem  $          - encode character
 rem  |&()<>     - control flow characters
 rem  '`^%!+     - escape or sequence expand characters (`+` is a unicode codepoint sequence character in 65000 code page)

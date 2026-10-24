@@ -188,7 +188,7 @@ rem Command line variant for `mshta.exe` executable
 (
   setlocal ENABLEDELAYEDEXPANSION
 
-  set "?0=!COMSPEC!"
+  if defined COMSPEC set "?0=!COMSPEC!"
   set "?@="
 
   rem translate Windows Batch compatible escapes into escape placeholders
