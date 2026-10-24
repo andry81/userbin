@@ -1,4 +1,7 @@
 2026.10.07:
+* new: scripts/bat/print-drives-list.bat: script to print disk drives list
+
+2026.10.07:
 * new: scripts/bat/print-wmi-*.bat: scripts to enumerates WMI classes and class properties
 
 2026.10.07:
