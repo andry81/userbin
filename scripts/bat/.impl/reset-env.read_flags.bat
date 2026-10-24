@@ -2,6 +2,7 @@
 
 rem script flags
 set ?FLAG_SHIFT=0
+set ?FLAG_T=0
 set ?FLAG_P=0
 set ?FLAG_R=0
 set ?FLAG_D=0
@@ -14,6 +15,7 @@ set "?FLAG=%~1"
 
 if defined ?FLAG if not "%?FLAG:~0,1%" == "-" set "?FLAG="
 
+if defined ?FLAG if "%?FLAG%" == "-t" set "?FLAG_T=1" & shift & call set "?FLAG=%%~1" & set /A ?FLAG_SHIFT+=1
 if defined ?FLAG if "%?FLAG%" == "-p" set "?FLAG_P=1" & shift & call set "?FLAG=%%~1" & set /A ?FLAG_SHIFT+=1
 if defined ?FLAG if "%?FLAG%" == "-r" set "?FLAG_R=1" & shift & call set "?FLAG=%%~1" & set /A ?FLAG_SHIFT+=1
 if defined ?FLAG if "%?FLAG%" == "-d" set "?FLAG_D=1" & shift & call set "?FLAG=%%~1" & set /A ?FLAG_SHIFT+=1

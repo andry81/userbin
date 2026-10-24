@@ -13,11 +13,16 @@ rem   The delayed expansion feature must be disabled before this script call:
 rem   `setlocal DISABLEDELAYEDEXPANSION`, otherwise the `!` character will be
 rem   expanded.
 
+rem -t
+rem   Dry run, does not change anything.
+rem   Does not imply flag `-p`.
+rem
 rem -p
 rem   Print variables assign.
 rem
 rem -r
-rem   Skips existing environment variable clear if is not found in list(s).
+rem   Skips an existing environment variable clear if is not found in list(s).
+rem   Resets only those variables which is in list(s).
 rem
 rem -d
 rem   Use `ver` command output to select the builtin variables list from
@@ -32,7 +37,11 @@ rem -noexpand
 rem   Disables expansion of %-variables.
 rem
 rem -allow-rename
-rem   Allow variable name change using `unset` before `set`.
+rem   Allows a variable's character case change using `unset` before `set`.
+rem   Has meaning in case of a different variable's character case in a list
+rem   and in the environment.
+rem   By default, if the flag is not set, an existing environment variable
+rem   character case does not change on reset.
 
 rem --:
 rem   Separator to stop parse flags.
@@ -71,11 +80,7 @@ if not defined ?VARS_FILE (
 
 if %?FLAG_D% EQU 0 goto SKIP_LOAD_DEFAULT_VARS_FILE
 
-if defined WINDOWS_MAJOR_VER if defined WINDOWS_MINOR_VER (
-  set "?OSVERMAJOR=%WINDOWS_MAJOR_VER%"
-  set "?OSVERMINOR=%WINDOWS_MINOR_VER%"
-  goto SKIP_OSVER_LOAD
-)
+if defined WINDOWS_MAJOR_VER if defined WINDOWS_MINOR_VER set "?OSVERMAJOR=%WINDOWS_MAJOR_VER%" & set "?OSVERMINOR=%WINDOWS_MINOR_VER%" & goto SKIP_OSVER_LOAD
 
 set "?OSVER=" & for /F "usebackq tokens=1,* delims=[" %%i in (`@ver 2^>nul`) do for /F "tokens=1,* delims=]" %%k in ("%%j") do set "?OSVER=%%k"
 
@@ -128,7 +133,7 @@ if %?FLAG_P% NEQ 0 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eo
 if %?FLAG_R% NEQ 0 goto CLEAR_VAR_END
 if not defined ?LOAD_DEFAULT_VARS_FILE if not defined ?LOAD_VARS_FILE goto CLEAR_VAR_END
 
-for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CLEAR_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i) & set "%%i=" )
+for /F "usebackq tokens=1 delims=="eol^= %%i in (`@set 2^>nul`) do set "?VAR_NAME=%%i" & call :CLEAR_VAR && ( ( if %?FLAG_P% NEQ 0 echo;-%%i) & if %?FLAG_T% EQU 0 set "%%i=" )
 
 goto CLEAR_VAR_END
 
@@ -166,8 +171,8 @@ for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:="!"") do endlocal & set "?
 setlocal ENABLEDELAYEDEXPANSION & for /F "tokens=* delims="eol^= %%i in ("!?VAR_NAME!") do ^
 for /F "tokens=* delims="eol^= %%j in ("!?VAR_VALUE:~0,-1!") do endlocal & (
   if %?FLAG_P% NEQ 0 echo;%%i=%%j
-  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%i="
-  set "%%i=%%j"
+  if %?FLAG_ALLOW_RENAME% NEQ 0 if %?FLAG_T% EQU 0 set "%%i="
+  if %?FLAG_T% EQU 0 set "%%i=%%j"
 )
 exit /b 0
 
@@ -176,16 +181,16 @@ if not defined ?FLAG_VAR_LIST goto NO_FLAG_VAR_LIST
 
 for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" for %%l in (%?FLAG_VAR_LIST%) do if /i "%%j" == "%%~l" (
   if %?FLAG_P% NEQ 0 echo;%%j=%%k
-  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%j="
-  set "%%j=%%k"
+  if %?FLAG_ALLOW_RENAME% NEQ 0 if %?FLAG_T% EQU 0 set "%%j="
+  if %?FLAG_T% EQU 0 set "%%j=%%k"
 )
 exit /b 0
 
 :NO_FLAG_VAR_LIST
 for /F "usebackq eol=; tokens=1,* delims==" %%j in ("%?LOAD_VARS_FILE%") do if not "%%k" == "" (
   if %?FLAG_P% NEQ 0 echo;%%j=%%k
-  if %?FLAG_ALLOW_RENAME% NEQ 0 set "%%j="
-  set "%%j=%%k"
+  if %?FLAG_ALLOW_RENAME% NEQ 0 if %?FLAG_T% EQU 0 set "%%j="
+  if %?FLAG_T% EQU 0 set "%%j=%%k"
 )
 exit /b 0
 

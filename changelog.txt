@@ -1,3 +1,9 @@
+2026.10.24:
+* new: tests/bench/bat/test_reset-env: bench tests for a dry run
+* changed: scripts/bat/reset-env.bat: added `-t` flag for a dry run
+* refactor: scripts/bat/reset-env.bat: documentation refactor
+* refactor: tests/bench/bat/test_reset-env: bench tests refactor
+
 2026.10.20:
 * changed: samples/scripts/bat/mshta_cmd_elevate.bat: minor improvement
 * refactor: script/bat/*.bat: documentation minor refactor
