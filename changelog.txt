@@ -1,4 +1,7 @@
 2026.10.24:
+* changed: *.bat: switched to use `call_.bat` script
+
+2026.10.24:
 * new: tests/bench/bat/test_reset-env: bench tests for a dry run
 * changed: scripts/bat/reset-env.bat: added `-t` flag for a dry run
 * refactor: scripts/bat/reset-env.bat: documentation refactor
